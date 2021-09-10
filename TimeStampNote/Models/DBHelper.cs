@@ -109,7 +109,8 @@
             var dics = Select($"SELECT * FROM {TableName};");
             var comments = new List<Comment>();
 
-            dics.ForEach((Dictionary<string, object> d) => {
+            dics.ForEach((Dictionary<string, object> d) => 
+            {
                 comments.Add(new Comment
                 {
                     ID = (long)d[nameof(Comment.ID)],
