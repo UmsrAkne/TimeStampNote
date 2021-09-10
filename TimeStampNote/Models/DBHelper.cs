@@ -106,7 +106,22 @@
 
         public List<Comment> GetAllComment()
         {
-            throw new NotImplementedException();
+            var dics = Select($"SELECT * FROM {TableName};");
+            var comments = new List<Comment>();
+
+            dics.ForEach((Dictionary<string, object> d) => {
+                comments.Add(new Comment
+                {
+                    ID = (long)d[nameof(Comment.ID)],
+                    SubID = (string)d[nameof(Comment.SubID)],
+                    PostedDate = DateTime.Parse((string)d[nameof(Comment.PostedDate)]),
+                    GroupName = (string)d[nameof(Comment.GroupName)],
+                    Text = (string)d[nameof(Comment.Text)],
+                    IsLatest = Convert.ToBoolean(d[nameof(Comment.IsLatest)])
+                });
+            });
+
+            return comments;
         }
 
         public void Insert(Comment comment)

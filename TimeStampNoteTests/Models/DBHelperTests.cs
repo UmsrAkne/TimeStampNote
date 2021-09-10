@@ -66,5 +66,44 @@ namespace TimeStampNote.Models.Tests
             Assert.AreEqual(dics[1][nameof(Comment.GroupName)], "testGroup");
             Assert.AreEqual(dics[1][nameof(Comment.PostedDate)], new DateTime(0).ToString());
         }
+
+        [TestMethod()]
+        public void GetAllCommentTest()
+        {
+            if (File.Exists(dbName))
+            {
+                File.Delete(dbName);
+            }
+
+            DBHelper dbHelper = new DBHelper(dbName, tableName);
+
+            var comment = new Comment()
+            {
+                ID = 2,
+                SubID = "abc",
+                PostedDate = new DateTime(0),
+                Text = "testText",
+                GroupName = "testGroup"
+            };
+
+            var comment2 = new Comment()
+            {
+                ID = 3,
+                SubID = "def",
+                PostedDate = new DateTime(1),
+                Text = "testTextNext",
+                GroupName = "testGroup"
+            };
+
+            dbHelper.Insert(comment);
+            dbHelper.Insert(comment2);
+
+            var comments = dbHelper.GetAllComment();
+
+            Assert.AreEqual(comments.Count, 2);
+            Assert.AreEqual(comments[0].Text, "testText");
+            Assert.AreEqual(comments[0].GroupName, "testGroup");
+            Assert.AreEqual(comments[0].PostedDate, new DateTime(0));
+        }
     }
 }
