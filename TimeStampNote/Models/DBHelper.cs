@@ -12,9 +12,9 @@
             DatabaseName = databaseName;
             TableName = tableName;
 
-            if (!File.Exists(DatabaseName + ".sqlite"))
+            if (!File.Exists(DatabaseName))
             {
-                SQLiteConnection.CreateFile(DatabaseName + ".sqlite");
+                SQLiteConnection.CreateFile(DatabaseName);
             }
 
             var createTableSql = $"CREATE TABLE IF NOT EXISTS {TableName} (";
@@ -22,7 +22,7 @@
             createTableSql += $"{nameof(Comment.SubID)} TEXT , ";
             createTableSql += $"{nameof(Comment.Text)} TEXT , ";
             createTableSql += $"{nameof(Comment.PostedDate)} TEXT , ";
-            createTableSql += $"{nameof(Comment.IsLatest)} TEXT ";
+            createTableSql += $"{nameof(Comment.IsLatest)} TEXT , ";
             createTableSql += $"{nameof(Comment.GroupName)} TEXT ";
             createTableSql += $");";
 
@@ -35,7 +35,7 @@
 
         public void ExecuteNonQuery(string commandText)
         {
-            using (var conn = new SQLiteConnection("Data Source=" + DatabaseName + ".sqlite"))
+            using (var conn = new SQLiteConnection("Data Source=" + DatabaseName))
             {
                 conn.Open();
                 using (var command = conn.CreateCommand())
@@ -55,7 +55,7 @@
         /// <returns>内部で取得したSQLiteDataReaderの値をすべて詰め込んだオブジェクトを取得する</returns>
         public List<Dictionary<string, object>> Select(string commandText)
         {
-            using (var conn = new SQLiteConnection("Data Source=" + DatabaseName + ".sqlite"))
+            using (var conn = new SQLiteConnection("Data Source=" + DatabaseName))
             {
                 using (var command = new SQLiteCommand(commandText, conn))
                 {
@@ -106,7 +106,23 @@
 
         public List<Comment> GetAllComment()
         {
-            throw new NotImplementedException();
+            var dics = Select($"SELECT * FROM {TableName};");
+            var comments = new List<Comment>();
+
+            dics.ForEach((Dictionary<string, object> d) => 
+            {
+                comments.Add(new Comment
+                {
+                    ID = (long)d[nameof(Comment.ID)],
+                    SubID = (string)d[nameof(Comment.SubID)],
+                    PostedDate = DateTime.Parse((string)d[nameof(Comment.PostedDate)]),
+                    GroupName = (string)d[nameof(Comment.GroupName)],
+                    Text = (string)d[nameof(Comment.Text)],
+                    IsLatest = Convert.ToBoolean(d[nameof(Comment.IsLatest)])
+                });
+            });
+
+            return comments;
         }
 
         public void Insert(Comment comment)
@@ -114,11 +130,17 @@
             var commandText = $"INSERT INTO {TableName} " +
                 $"({nameof(Comment.ID)}, " +
                 $"{nameof(Comment.SubID)}, " +
+                $"{nameof(Comment.PostedDate)}, " +
                 $"{nameof(Comment.Text)}, " +
                 $"{nameof(Comment.IsLatest)}, " +
                 $"{nameof(Comment.GroupName)}) " +
                 $"values " +
-                $"({comment.ID}, '{comment.SubID}', '{comment.Text}', '{comment.IsLatest}', '{comment.GroupName}');";
+                $"({comment.ID}, " +
+                $"'{comment.SubID}', " +
+                $"'{comment.PostedDate}', " +
+                $"'{comment.Text}', " +
+                $"'{comment.IsLatest}', " +
+                $"'{comment.GroupName}');";
 
             ExecuteNonQuery(commandText);
         }
