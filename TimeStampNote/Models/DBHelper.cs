@@ -55,7 +55,7 @@
         /// <returns>内部で取得したSQLiteDataReaderの値をすべて詰め込んだオブジェクトを取得する</returns>
         public List<Dictionary<string, object>> Select(string commandText)
         {
-            using (var conn = new SQLiteConnection("Data Source=" + DatabaseName + ".sqlite"))
+            using (var conn = new SQLiteConnection("Data Source=" + DatabaseName))
             {
                 using (var command = new SQLiteCommand(commandText, conn))
                 {
@@ -114,11 +114,17 @@
             var commandText = $"INSERT INTO {TableName} " +
                 $"({nameof(Comment.ID)}, " +
                 $"{nameof(Comment.SubID)}, " +
+                $"{nameof(Comment.PostedDate)}, " +
                 $"{nameof(Comment.Text)}, " +
                 $"{nameof(Comment.IsLatest)}, " +
                 $"{nameof(Comment.GroupName)}) " +
                 $"values " +
-                $"({comment.ID}, '{comment.SubID}', '{comment.Text}', '{comment.IsLatest}', '{comment.GroupName}');";
+                $"({comment.ID}, " +
+                $"'{comment.SubID}', " +
+                $"'{comment.PostedDate}', " +
+                $"'{comment.Text}', " +
+                $"'{comment.IsLatest}', " +
+                $"'{comment.GroupName}');";
 
             ExecuteNonQuery(commandText);
         }
