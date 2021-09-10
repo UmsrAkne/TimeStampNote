@@ -12,9 +12,9 @@
             DatabaseName = databaseName;
             TableName = tableName;
 
-            if (!File.Exists(DatabaseName + ".sqlite"))
+            if (!File.Exists(DatabaseName))
             {
-                SQLiteConnection.CreateFile(DatabaseName + ".sqlite");
+                SQLiteConnection.CreateFile(DatabaseName);
             }
 
             var createTableSql = $"CREATE TABLE IF NOT EXISTS {TableName} (";
@@ -35,7 +35,7 @@
 
         public void ExecuteNonQuery(string commandText)
         {
-            using (var conn = new SQLiteConnection("Data Source=" + DatabaseName + ".sqlite"))
+            using (var conn = new SQLiteConnection("Data Source=" + DatabaseName))
             {
                 conn.Open();
                 using (var command = conn.CreateCommand())
