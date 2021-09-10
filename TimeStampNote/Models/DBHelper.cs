@@ -22,7 +22,7 @@
             createTableSql += $"{nameof(Comment.SubID)} TEXT , ";
             createTableSql += $"{nameof(Comment.Text)} TEXT , ";
             createTableSql += $"{nameof(Comment.PostedDate)} TEXT , ";
-            createTableSql += $"{nameof(Comment.IsLatest)} TEXT ";
+            createTableSql += $"{nameof(Comment.IsLatest)} TEXT , ";
             createTableSql += $"{nameof(Comment.GroupName)} TEXT ";
             createTableSql += $");";
 
