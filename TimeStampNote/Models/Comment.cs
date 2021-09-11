@@ -4,6 +4,8 @@
 
     public class Comment
     {
+        private static Random random = new Random();
+
         /// <summary>
         /// このオブジェクトを識別するユニークな ID です。
         /// デフォルト状態では "-1" が割り当てられており、この値が、ID 未割り当ての状態を表します。
@@ -22,5 +24,19 @@
         public bool IsLatest { get; set; }
 
         public string GroupName { get; set; }
+
+        /// <summary>
+        /// SubID 用の文字列を生成し、SubID にセットします。
+        /// </summary>
+        public void GenerateSubID()
+        {
+            var str = "abcdefghijklmnopqrstuvwxyz";
+
+            SubID = string.Empty;
+            for (var i = 0; i < 16; i++)
+            {
+                SubID += str.Substring(random.Next(0, str.Length), 1);
+            }
+        }
     }
 }
