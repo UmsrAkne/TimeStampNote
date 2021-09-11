@@ -33,6 +33,8 @@
 
         public string TableName { get; private set; }
 
+        public string CurrentGroupName { get; set; } = "defaultGroup";
+
         public void ExecuteNonQuery(string commandText)
         {
             using (var conn = new SQLiteConnection("Data Source=" + DatabaseName))

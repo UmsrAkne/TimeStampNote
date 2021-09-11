@@ -31,6 +31,7 @@
             comment.Text = Reader.OpenEditor($"{comment.SubID}.txt");
             comment.PostedDate = DateTime.Now;
             comment.ID = DBHelper.GetMaxInColumn("comments", nameof(Comment.ID)) + 1;
+            comment.GroupName = DBHelper.CurrentGroupName;
             comment.IsLatest = true;
 
             DBHelper.Insert(comment);
