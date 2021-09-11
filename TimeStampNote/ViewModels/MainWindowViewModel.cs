@@ -1,5 +1,6 @@
 ﻿namespace TimeStampNote.ViewModels
 {
+    using System;
     using Prism.Commands;
     using Prism.Mvvm;
     using TimeStampNote.Models;
@@ -15,6 +16,8 @@
 
         public TextReader Reader { private get; set; } = new TextReader();
 
+        public DBHelper DBHelper { get; } = new DBHelper("memoDB","comments");
+
         public string Title
         {
             get { return title; }
@@ -25,7 +28,12 @@
         {
             var comment = new Comment();
             comment.GenerateSubID();
-            Reader.OpenEditor($"{comment.SubID}.txt");
+            comment.Text = Reader.OpenEditor($"{comment.SubID}.txt");
+            comment.PostedDate = DateTime.Now;
+            comment.ID = DBHelper.GetMaxInColumn("comments", nameof(Comment.ID)) + 1;
+            comment.IsLatest = true;
+
+            DBHelper.Insert(comment);
         }));
     }
 }

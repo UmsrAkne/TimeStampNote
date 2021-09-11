@@ -87,6 +87,11 @@
         /// <returns></returns>
         public long GetMaxInColumn(string tableName, string columnName)
         {
+            if(GetRecordCount(TableName) == 0)
+            {
+                return 0;
+            }
+
             var commandText = "SELECT MAX(" + columnName + ") FROM " + tableName;
             var dics = Select(commandText);
             return (long)dics[0]["MAX(" + columnName + ")"];
