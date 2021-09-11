@@ -89,7 +89,7 @@
         /// <returns></returns>
         public long GetMaxInColumn(string tableName, string columnName)
         {
-            if(GetRecordCount(TableName) == 0)
+            if (GetRecordCount(TableName) == 0)
             {
                 return 0;
             }
@@ -116,7 +116,7 @@
             var dics = Select($"SELECT * FROM {TableName};");
             var comments = new List<Comment>();
 
-            dics.ForEach((Dictionary<string, object> d) => 
+            dics.ForEach((Dictionary<string, object> d) =>
             {
                 comments.Add(new Comment
                 {

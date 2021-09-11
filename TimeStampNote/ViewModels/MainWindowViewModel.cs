@@ -19,11 +19,11 @@
 
         public TextReader Reader { private get; set; } = new TextReader();
 
-        public DBHelper DBHelper { get; } = new DBHelper("memoDB","comments");
+        public DBHelper DBHelper { get; } = new DBHelper("memoDB", "comments");
 
-        public string CommandText 
+        public string CommandText
         {
-            get => commandText; 
+            get => commandText;
             set => SetProperty(ref commandText, value);
         }
 
