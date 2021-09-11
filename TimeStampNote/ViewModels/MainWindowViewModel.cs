@@ -1,6 +1,7 @@
 ﻿namespace TimeStampNote.ViewModels
 {
     using System;
+    using System.Text.RegularExpressions;
     using Prism.Commands;
     using Prism.Mvvm;
     using TimeStampNote.Models;
@@ -9,6 +10,7 @@
     {
         private string title = "Prism Application";
         private DelegateCommand addCommentCommand;
+        private DelegateCommand executeCommandCommand;
         private string commandText = string.Empty;
 
         public MainWindowViewModel()
@@ -42,6 +44,14 @@
             comment.IsLatest = true;
 
             DBHelper.Insert(comment);
+        }));
+
+        public DelegateCommand ExecuteCommandCommand => executeCommandCommand ?? (executeCommandCommand = new DelegateCommand(() =>
+        {
+            if (Regex.IsMatch(CommandText, "^add ", RegexOptions.IgnoreCase))
+            {
+                AddCommentCommand.Execute();
+            }
         }));
     }
 }

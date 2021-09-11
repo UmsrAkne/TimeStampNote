@@ -28,7 +28,12 @@
                 <ComboBoxItem Content="text" />
             </ComboBox>
 
-            <TextBox x:Name="commandBox" Text="{Binding CommandText}" />
+            <TextBox x:Name="commandBox" Text="{Binding CommandText, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Return" Command="{Binding ExecuteCommandCommand}" />
+                </TextBox.InputBindings>
+
+            </TextBox>
         </StackPanel>
         <TextBlock Grid.Row="1" />
         <StatusBar Grid.Row="2" Background="Gray">
