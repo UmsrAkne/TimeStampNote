@@ -19,7 +19,9 @@
                 <MenuItem Header="File">
                     <MenuItem Header="Exit" />
                 </MenuItem>
-                <MenuItem Header="Edit" />
+                <MenuItem Header="Command">
+                    <MenuItem Command="{Binding AddCommentCommand}" Header="Add" />
+                </MenuItem>
             </Menu>
 
             <ComboBox Margin="0,4">
