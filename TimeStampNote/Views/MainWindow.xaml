@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
 
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
-        <StackPanel Grid.Row="0">
+        <StackPanel Grid.Row="0" FocusManager.FocusedElement="{Binding ElementName=commandBox}">
             <Menu>
                 <MenuItem Header="File">
                     <MenuItem Header="Exit" />
@@ -26,7 +26,7 @@
                 <ComboBoxItem Content="text" />
             </ComboBox>
 
-            <TextBox />
+            <TextBox x:Name="commandBox" />
         </StackPanel>
         <TextBlock Grid.Row="1" />
         <StatusBar Grid.Row="2" Background="Gray">
