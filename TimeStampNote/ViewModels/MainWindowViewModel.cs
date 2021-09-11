@@ -23,7 +23,9 @@
 
         public DelegateCommand AddCommentCommand => addCommentCommand ?? (addCommentCommand = new DelegateCommand(() =>
         {
-            Reader.OpenEditor("temp.txt");
+            var comment = new Comment();
+            comment.GenerateSubID();
+            Reader.OpenEditor($"{comment.SubID}.txt");
         }));
     }
 }
