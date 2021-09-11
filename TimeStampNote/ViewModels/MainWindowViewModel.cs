@@ -9,6 +9,7 @@
     {
         private string title = "Prism Application";
         private DelegateCommand addCommentCommand;
+        private string commandText = string.Empty;
 
         public MainWindowViewModel()
         {
@@ -17,6 +18,12 @@
         public TextReader Reader { private get; set; } = new TextReader();
 
         public DBHelper DBHelper { get; } = new DBHelper("memoDB","comments");
+
+        public string CommandText 
+        {
+            get => commandText; 
+            set => SetProperty(ref commandText, value);
+        }
 
         public string Title
         {
