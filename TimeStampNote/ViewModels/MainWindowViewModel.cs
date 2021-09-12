@@ -1,6 +1,7 @@
 ﻿namespace TimeStampNote.ViewModels
 {
     using System;
+    using System.Collections.ObjectModel;
     using System.Text.RegularExpressions;
     using Prism.Commands;
     using Prism.Mvvm;
@@ -11,15 +12,19 @@
         private string title = "Prism Application";
         private DelegateCommand addCommentCommand;
         private DelegateCommand executeCommandCommand;
+        private DelegateCommand getCommentCommand;
         private string commandText = string.Empty;
 
         public MainWindowViewModel()
         {
+            GetCommentCommand.Execute();
         }
 
         public TextReader Reader { private get; set; } = new TextReader();
 
         public DBHelper DBHelper { get; } = new DBHelper("memoDB", "comments");
+
+        public ObservableCollection<Comment> Comments { get; private set; } = new ObservableCollection<Comment>();
 
         public string CommandText
         {
@@ -52,6 +57,12 @@
             {
                 AddCommentCommand.Execute();
             }
+        }));
+
+        public DelegateCommand GetCommentCommand => getCommentCommand ?? (getCommentCommand = new DelegateCommand(() =>
+        {
+            Comments.Clear();
+            Comments.AddRange(DBHelper.GetAllComment());
         }));
     }
 }

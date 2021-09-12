@@ -35,7 +35,7 @@
 
             </TextBox>
         </StackPanel>
-        <TextBlock Grid.Row="1" />
+        <ListView Grid.Row="1" ItemsSource="{Binding Comments}" />
         <StatusBar Grid.Row="2" Background="Gray">
             <TextBlock Text="bottomStatusBar" />
         </StatusBar>
