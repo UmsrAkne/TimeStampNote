@@ -13,10 +13,12 @@
         private DelegateCommand addCommentCommand;
         private DelegateCommand executeCommandCommand;
         private DelegateCommand getCommentCommand;
+        private DelegateCommand reloadGroupNamesCommand;
         private string commandText = string.Empty;
 
         public MainWindowViewModel()
         {
+            ReloadGroupNamesCommand.Execute();
             GetCommentCommand.Execute();
         }
 
@@ -25,6 +27,8 @@
         public DBHelper DBHelper { get; } = new DBHelper("memoDB", "comments");
 
         public ObservableCollection<Comment> Comments { get; private set; } = new ObservableCollection<Comment>();
+
+        public ObservableCollection<string> GroupNames { get; private set; } = new ObservableCollection<string>();
 
         public string CommandText
         {
@@ -66,6 +70,12 @@
         {
             Comments.Clear();
             Comments.AddRange(DBHelper.GetAllComment());
+        }));
+
+        public DelegateCommand ReloadGroupNamesCommand => reloadGroupNamesCommand ?? (reloadGroupNamesCommand = new DelegateCommand(() =>
+        {
+            GroupNames.Clear();
+            GroupNames.AddRange(DBHelper.GetGroupNames());
         }));
     }
 }

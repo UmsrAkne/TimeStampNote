@@ -4,9 +4,12 @@
     using System.Collections.Generic;
     using System.Data.SQLite;
     using System.IO;
+    using Prism.Mvvm;
 
-    public class DBHelper : IDBHelper
+    public class DBHelper : BindableBase, IDBHelper
     {
+        private string currentGroupName = "defaultGroup";
+
         public DBHelper(string databaseName, string tableName)
         {
             DatabaseName = databaseName;
@@ -33,7 +36,7 @@
 
         public string TableName { get; private set; }
 
-        public string CurrentGroupName { get; set; } = "defaultGroup";
+        public string CurrentGroupName { get => currentGroupName; set => SetProperty(ref currentGroupName, value); }
 
         public void ExecuteNonQuery(string commandText)
         {
