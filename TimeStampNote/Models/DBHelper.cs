@@ -124,6 +124,14 @@
             return comments;
         }
 
+        public List<Comment> GetGroupComments()
+        {
+            var comments = new List<Comment>();
+            var sql = $"SELECT * FROM {TableName} WHERE {nameof(Comment.GroupName)} = '{CurrentGroupName}';";
+            Select(sql).ForEach(d => comments.Add(ToComment(d)));
+            return comments;
+        }
+
         public void Insert(Comment comment)
         {
             var commandText = $"INSERT INTO {TableName} " +

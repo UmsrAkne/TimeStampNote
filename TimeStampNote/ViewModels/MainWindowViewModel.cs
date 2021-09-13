@@ -69,7 +69,7 @@
         public DelegateCommand GetCommentCommand => getCommentCommand ?? (getCommentCommand = new DelegateCommand(() =>
         {
             Comments.Clear();
-            Comments.AddRange(DBHelper.GetAllComment());
+            Comments.AddRange(DBHelper.GetGroupComments());
         }));
 
         public DelegateCommand ReloadGroupNamesCommand => reloadGroupNamesCommand ?? (reloadGroupNamesCommand = new DelegateCommand(() =>
