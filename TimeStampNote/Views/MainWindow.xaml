@@ -6,6 +6,15 @@
     Title="{Binding Title}"
     Width="800"
     Height="600">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="CustomStyleDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -35,7 +44,7 @@
 
             </TextBox>
         </StackPanel>
-        <TextBlock Grid.Row="1" />
+        <ListView Grid.Row="1" ItemsSource="{Binding Comments}" />
         <StatusBar Grid.Row="2" Background="Gray">
             <TextBlock Text="bottomStatusBar" />
         </StatusBar>

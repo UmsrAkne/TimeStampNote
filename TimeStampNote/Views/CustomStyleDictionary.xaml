@@ -1,0 +1,34 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:models="clr-namespace:TimeStampNote.Models">
+    <models:DateTimeConverter x:Key="DateTimeConverter" />
+    <Style TargetType="ListViewItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Background="WhiteSmoke" BorderThickness="0.5">
+                        <StackPanel Orientation="Horizontal">
+
+                            <StackPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize" Value="14" />
+                                    <Setter Property="FontFamily" Value="BIZ UDゴシック" />
+                                </Style>
+                            </StackPanel.Resources>
+
+                            <TextBlock Width="30" Text="{Binding ID}" />
+                            <TextBlock
+                                Width="50"
+                                Text="{Binding SubID}"
+                                TextTrimming="CharacterEllipsis" />
+                            <TextBlock Margin="3,0,6,0" Text="{Binding PostedDate, Converter={StaticResource DateTimeConverter}}" />
+                            <TextBlock Text="{Binding Text}" />
+                        </StackPanel>
+
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

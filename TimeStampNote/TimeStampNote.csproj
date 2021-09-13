@@ -56,6 +56,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\CustomStyleDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -65,6 +69,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\DateTimeConverter.cs" />
     <Compile Include="Models\DBHelper.cs" />
     <Compile Include="Models\IDBHelper.cs" />
     <Compile Include="Models\TextReader.cs" />
