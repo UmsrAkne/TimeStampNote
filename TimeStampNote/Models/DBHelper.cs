@@ -119,18 +119,7 @@
             var dics = Select($"SELECT * FROM {TableName};");
             var comments = new List<Comment>();
 
-            dics.ForEach((Dictionary<string, object> d) =>
-            {
-                comments.Add(new Comment
-                {
-                    ID = (long)d[nameof(Comment.ID)],
-                    SubID = (string)d[nameof(Comment.SubID)],
-                    PostedDate = DateTime.Parse((string)d[nameof(Comment.PostedDate)]),
-                    GroupName = (string)d[nameof(Comment.GroupName)],
-                    Text = (string)d[nameof(Comment.Text)],
-                    IsLatest = Convert.ToBoolean(d[nameof(Comment.IsLatest)])
-                });
-            });
+            dics.ForEach((Dictionary<string, object> d) => comments.Add(ToComment(d)));
 
             return comments;
         }
@@ -160,12 +149,22 @@
             var dics = Select($"SELECT DISTINCT {nameof(Comment.GroupName)} FROM {TableName};");
 
             var names = new List<string>();
-            dics.ForEach(d => 
+            dics.ForEach(d =>
             {
                 names.Add((string)d[nameof(Comment.GroupName)]);
             });
 
             return names;
         }
+
+        private Comment ToComment(Dictionary<string, object> dic) => new Comment()
+        {
+            ID = (long)dic[nameof(Comment.ID)],
+            SubID = (string)dic[nameof(Comment.SubID)],
+            PostedDate = DateTime.Parse((string)dic[nameof(Comment.PostedDate)]),
+            GroupName = (string)dic[nameof(Comment.GroupName)],
+            Text = (string)dic[nameof(Comment.Text)],
+            IsLatest = Convert.ToBoolean(dic[nameof(Comment.IsLatest)])
+        };
     }
 }
