@@ -22,7 +22,7 @@
                 text = reader.ReadToEnd();
             }
 
-            if(text.Substring(text.Length -1) == "\n")
+            if (text.Substring(text.Length - 1) == "\n")
             {
                 text = text.Remove(text.Length - 1, 1);
             }
