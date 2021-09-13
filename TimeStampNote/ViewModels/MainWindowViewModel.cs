@@ -57,6 +57,9 @@
             {
                 AddCommentCommand.Execute();
             }
+
+            GetCommentCommand.Execute();
+            CommandText = string.Empty;
         }));
 
         public DelegateCommand GetCommentCommand => getCommentCommand ?? (getCommentCommand = new DelegateCommand(() =>
