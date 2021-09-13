@@ -9,11 +9,21 @@
                 <ControlTemplate>
                     <Border Background="WhiteSmoke" BorderThickness="0.5">
                         <StackPanel Orientation="Horizontal">
+
+                            <StackPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize" Value="14" />
+                                    <Setter Property="FontFamily" Value="BIZ UDゴシック" />
+                                </Style>
+                            </StackPanel.Resources>
+
+                            <TextBlock Width="30" Text="{Binding ID}" />
                             <TextBlock
-                                Margin="3,0,6,0"
-                                FontSize="14"
-                                Text="{Binding PostedDate, Converter={StaticResource DateTimeConverter}}" />
-                            <TextBlock FontSize="14" Text="{Binding Text}" />
+                                Width="50"
+                                Text="{Binding SubID}"
+                                TextTrimming="CharacterEllipsis" />
+                            <TextBlock Margin="3,0,6,0" Text="{Binding PostedDate, Converter={StaticResource DateTimeConverter}}" />
+                            <TextBlock Text="{Binding Text}" />
                         </StackPanel>
 
                     </Border>
