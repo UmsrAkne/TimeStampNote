@@ -151,5 +151,18 @@
 
             ExecuteNonQuery(commandText);
         }
+
+        public List<string> GetGroupNames()
+        {
+            var dics = Select($"SELECT {nameof(Comment.GroupName)} FROM {TableName};");
+
+            var names = new List<string>();
+            dics.ForEach(d => 
+            {
+                names.Add((string)d[nameof(Comment.GroupName)]);
+            });
+
+            return names;
+        }
     }
 }

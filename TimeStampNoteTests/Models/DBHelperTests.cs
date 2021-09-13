@@ -102,5 +102,38 @@
             Assert.AreEqual(comments[0].GroupName, "testGroup");
             Assert.AreEqual(comments[0].PostedDate, new DateTime(0));
         }
+
+        [TestMethod]
+        public void GetGroupNamesTest()
+        {
+            if (File.Exists(databaseName))
+            {
+                File.Delete(databaseName);
+            }
+
+            DBHelper databaseHelper = new DBHelper(databaseName, tableName);
+
+            var comment = new Comment()
+            {
+                ID = 2,
+                SubID = "abc",
+                GroupName = "testGroup"
+            };
+
+            var comment2 = new Comment()
+            {
+                ID = 3,
+                SubID = "def",
+                GroupName = "testGroup2"
+            };
+
+            databaseHelper.Insert(comment);
+            databaseHelper.Insert(comment2);
+
+            var groupNames = databaseHelper.GetGroupNames();
+
+            Assert.AreEqual(groupNames[0], "testGroup");
+            Assert.AreEqual(groupNames[1], "testGroup2");
+        }
     }
 }
