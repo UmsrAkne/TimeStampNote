@@ -1,11 +1,18 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:models="clr-namespace:TimeStampNote.Models">
+    <models:DateTimeConverter x:Key="DateTimeConverter" />
     <Style TargetType="ListViewItem">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
                     <Border Background="WhiteSmoke" BorderThickness="0.5">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock FontSize="14" Text="{Binding PostedDate}" />
+                            <TextBlock
+                                Margin="3,0,6,0"
+                                FontSize="14"
+                                Text="{Binding PostedDate, Converter={StaticResource DateTimeConverter}}" />
                             <TextBlock FontSize="14" Text="{Binding Text}" />
                         </StackPanel>
 
