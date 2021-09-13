@@ -22,6 +22,11 @@
                 text = reader.ReadToEnd();
             }
 
+            if(text.Substring(text.Length -1) == "\n")
+            {
+                text = text.Remove(text.Length - 1, 1);
+            }
+
             File.Delete(fileName);
             return text;
         }
