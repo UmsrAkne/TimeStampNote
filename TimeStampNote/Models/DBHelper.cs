@@ -154,7 +154,7 @@
 
         public List<string> GetGroupNames()
         {
-            var dics = Select($"SELECT {nameof(Comment.GroupName)} FROM {TableName};");
+            var dics = Select($"SELECT DISTINCT {nameof(Comment.GroupName)} FROM {TableName};");
 
             var names = new List<string>();
             dics.ForEach(d => 

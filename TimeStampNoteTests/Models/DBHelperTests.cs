@@ -127,6 +127,13 @@
                 GroupName = "testGroup2"
             };
 
+            var comment3 = new Comment()
+            {
+                ID = 4,
+                SubID = "def",
+                GroupName = "testGroup2"
+            };
+
             databaseHelper.Insert(comment);
             databaseHelper.Insert(comment2);
 
@@ -134,6 +141,7 @@
 
             Assert.AreEqual(groupNames[0], "testGroup");
             Assert.AreEqual(groupNames[1], "testGroup2");
+            Assert.AreEqual(groupNames.Count, 2);
         }
     }
 }
