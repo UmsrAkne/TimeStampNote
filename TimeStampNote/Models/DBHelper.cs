@@ -152,6 +152,15 @@
             ExecuteNonQuery(commandText);
         }
 
+        public Comment GetLatastCommentFromSubID(string partOfSubID)
+        {
+            var dics = Select($"SELECT * FROM {TableName} WHERE " +
+                $"{nameof(Comment.SubID)} LIKE '%{partOfSubID}%'" +
+                $"AND {nameof(Comment.IsLatest)} = 'true'");
+
+            return dics.Count == 1 ? ToComment(dics[0]) : null;
+        }
+
         public List<string> GetGroupNames()
         {
             var dics = Select($"SELECT DISTINCT {nameof(Comment.GroupName)} FROM {TableName};");

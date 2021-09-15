@@ -11,6 +11,7 @@
     {
         private string title = "Prism Application";
         private DelegateCommand addCommentCommand;
+        private DelegateCommand editCommentCommand;
         private DelegateCommand addGroupCommand;
         private DelegateCommand executeCommandCommand;
         private DelegateCommand getCommentCommand;
@@ -67,6 +68,10 @@
             DBHelper.Insert(comment);
         }));
 
+        public DelegateCommand EditCommentCommand => editCommentCommand ?? (editCommentCommand = new DelegateCommand(() =>
+        {
+        }));
+
         public DelegateCommand ExecuteCommandCommand => executeCommandCommand ?? (executeCommandCommand = new DelegateCommand(() =>
         {
             var regOption = RegexOptions.IgnoreCase;
@@ -79,6 +84,10 @@
             if (Regex.IsMatch(CommandText, "^add-?group ", regOption))
             {
                 AddGroupCommand.Execute();
+            }
+
+            if (Regex.IsMatch(CommandText, "^edit .+", regOption))
+            {
             }
 
             GetCommentCommand.Execute();
