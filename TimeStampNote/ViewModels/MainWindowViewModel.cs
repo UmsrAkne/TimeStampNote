@@ -71,9 +71,16 @@
 
         public DelegateCommand ExecuteCommandCommand => executeCommandCommand ?? (executeCommandCommand = new DelegateCommand(() =>
         {
-            if (Regex.IsMatch(CommandText, "^add ", RegexOptions.IgnoreCase))
+            var regOption = RegexOptions.IgnoreCase;
+
+            if (Regex.IsMatch(CommandText, "^add ", regOption))
             {
                 AddCommentCommand.Execute();
+            }
+
+            if(Regex.IsMatch(CommandText, "^add-?group .+", regOption))
+            {
+                AddGroupCommand.Execute(Regex.Matches(CommandText, "^add-?group (.*)", regOption)[0].Groups[1].Value);
             }
 
             GetCommentCommand.Execute();
