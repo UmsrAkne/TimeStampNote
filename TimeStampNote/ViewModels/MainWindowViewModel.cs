@@ -11,6 +11,7 @@
     {
         private string title = "Prism Application";
         private DelegateCommand addCommentCommand;
+        private DelegateCommand addGroupCommand;
         private DelegateCommand executeCommandCommand;
         private DelegateCommand getCommentCommand;
         private DelegateCommand reloadGroupNamesCommand;
@@ -55,11 +56,29 @@
             DBHelper.Insert(comment);
         }));
 
+        public DelegateCommand AddGroupCommand => addGroupCommand ?? (addGroupCommand = new DelegateCommand(() =>
+        {
+            var comment = new Comment();
+            comment.GenerateSubID();
+            comment.PostedDate = DateTime.Now;
+            comment.ID = DBHelper.GetMaxInColumn("comments", nameof(Comment.ID)) + 1;
+            comment.GroupName = Reader.OpenEditor($"Group_Name-{comment.SubID}.txt");
+            comment.IsLatest = true;
+            DBHelper.Insert(comment);
+        }));
+
         public DelegateCommand ExecuteCommandCommand => executeCommandCommand ?? (executeCommandCommand = new DelegateCommand(() =>
         {
-            if (Regex.IsMatch(CommandText, "^add ", RegexOptions.IgnoreCase))
+            var regOption = RegexOptions.IgnoreCase;
+
+            if (Regex.IsMatch(CommandText, "^add ", regOption))
             {
                 AddCommentCommand.Execute();
+            }
+
+            if (Regex.IsMatch(CommandText, "^add-?group ", regOption))
+            {
+                AddGroupCommand.Execute();
             }
 
             GetCommentCommand.Execute();
