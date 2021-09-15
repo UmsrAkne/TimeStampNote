@@ -56,7 +56,6 @@
             DBHelper.Insert(comment);
         }));
 
-
         public DelegateCommand<string> AddGroupCommand => addGroupCommand ?? (addGroupCommand = new DelegateCommand<string>(groupName =>
         {
             var comment = new Comment();
@@ -68,7 +67,6 @@
             DBHelper.Insert(comment);
         }));
 
-
         public DelegateCommand ExecuteCommandCommand => executeCommandCommand ?? (executeCommandCommand = new DelegateCommand(() =>
         {
             var regOption = RegexOptions.IgnoreCase;
@@ -78,7 +76,7 @@
                 AddCommentCommand.Execute();
             }
 
-            if(Regex.IsMatch(CommandText, "^add-?group .+", regOption))
+            if (Regex.IsMatch(CommandText, "^add-?group .+", regOption))
             {
                 AddGroupCommand.Execute(Regex.Matches(CommandText, "^add-?group (.*)", regOption)[0].Groups[1].Value);
             }
