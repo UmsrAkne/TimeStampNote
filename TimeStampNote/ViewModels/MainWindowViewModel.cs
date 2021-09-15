@@ -11,6 +11,7 @@
     {
         private string title = "Prism Application";
         private DelegateCommand addCommentCommand;
+        private DelegateCommand<string> addGroupCommand;
         private DelegateCommand executeCommandCommand;
         private DelegateCommand getCommentCommand;
         private DelegateCommand reloadGroupNamesCommand;
@@ -54,6 +55,19 @@
 
             DBHelper.Insert(comment);
         }));
+
+
+        public DelegateCommand<string> AddGroupCommand => addGroupCommand ?? (addGroupCommand = new DelegateCommand<string>(groupName =>
+        {
+            var comment = new Comment();
+            comment.GenerateSubID();
+            comment.PostedDate = DateTime.Now;
+            comment.ID = DBHelper.GetMaxInColumn("comments", nameof(Comment.ID)) + 1;
+            comment.GroupName = groupName;
+            comment.IsLatest = true;
+            DBHelper.Insert(comment);
+        }));
+
 
         public DelegateCommand ExecuteCommandCommand => executeCommandCommand ?? (executeCommandCommand = new DelegateCommand(() =>
         {
