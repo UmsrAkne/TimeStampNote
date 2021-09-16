@@ -11,7 +11,7 @@
     {
         private string title = "Prism Application";
         private DelegateCommand addCommentCommand;
-        private DelegateCommand editCommentCommand;
+        private DelegateCommand<string> editCommentCommand;
         private DelegateCommand addGroupCommand;
         private DelegateCommand executeCommandCommand;
         private DelegateCommand getCommentCommand;
@@ -68,8 +68,26 @@
             DBHelper.Insert(comment);
         }));
 
-        public DelegateCommand EditCommentCommand => editCommentCommand ?? (editCommentCommand = new DelegateCommand(() =>
+        public DelegateCommand<string> EditCommentCommand => editCommentCommand ?? (editCommentCommand = new DelegateCommand<string>((subID) =>
         {
+            var comment = DBHelper.GetLatastCommentFromSubID(subID);
+            if (comment != null)
+            {
+                var updatedComment = Reader.OpenEditor($"{comment.SubID}.txt", comment.Text);
+                if(comment.Text != updatedComment)
+                {
+                    var c = new Comment()
+                    {
+                        ID = DBHelper.GetMaxInColumn("comments", nameof(Comment.ID)) + 1,
+                        SubID = comment.SubID,
+                        Text = updatedComment,
+                        PostedDate = DateTime.Now,
+                        GroupName = DBHelper.CurrentGroupName,
+                        IsLatest = true
+                    };
+                }
+                
+            }
         }));
 
         public DelegateCommand ExecuteCommandCommand => executeCommandCommand ?? (executeCommandCommand = new DelegateCommand(() =>
@@ -88,6 +106,7 @@
 
             if (Regex.IsMatch(CommandText, "^edit .+", regOption))
             {
+                EditCommentCommand.Execute(Regex.Matches(CommandText, "^edit (.*)", regOption)[0].Groups[1].Value);
             }
 
             GetCommentCommand.Execute();

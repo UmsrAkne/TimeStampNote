@@ -156,7 +156,7 @@
         {
             var dics = Select($"SELECT * FROM {TableName} WHERE " +
                 $"{nameof(Comment.SubID)} LIKE '%{partOfSubID}%'" +
-                $"AND {nameof(Comment.IsLatest)} = 'true'");
+                $"AND {nameof(Comment.IsLatest)} = '{true}';");
 
             return dics.Count == 1 ? ToComment(dics[0]) : null;
         }
