@@ -73,20 +73,21 @@
             var comment = DBHelper.GetLatastCommentFromSubID(subID);
             if (comment != null)
             {
-                var updatedComment = Reader.OpenEditor($"{comment.SubID}.txt", comment.Text);
-                if(comment.Text != updatedComment)
+                var updatedText = Reader.OpenEditor($"{comment.SubID}.txt", comment.Text);
+                if (comment.Text != updatedText)
                 {
-                    var c = new Comment()
+                    comment.IsLatest = false;
+                    DBHelper.Update(comment);
+                    DBHelper.Insert(new Comment()
                     {
                         ID = DBHelper.GetMaxInColumn("comments", nameof(Comment.ID)) + 1,
                         SubID = comment.SubID,
-                        Text = updatedComment,
+                        Text = updatedText,
                         PostedDate = DateTime.Now,
                         GroupName = DBHelper.CurrentGroupName,
                         IsLatest = true
-                    };
+                    });
                 }
-                
             }
         }));
 
