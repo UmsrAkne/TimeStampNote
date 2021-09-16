@@ -157,19 +157,22 @@
             var comment = new Comment()
             {
                 ID = 2,
-                GroupName = "testGroup"
+                GroupName = "testGroup",
+                IsLatest = true
             };
 
             var comment2 = new Comment()
             {
                 ID = 3,
-                GroupName = "testGroup2"
+                GroupName = "testGroup2",
+                IsLatest = true
             };
 
             var comment3 = new Comment()
             {
                 ID = 4,
-                GroupName = "testGroup2"
+                GroupName = "testGroup2",
+                IsLatest = true
             };
 
             databaseHelper.Insert(comment);
@@ -200,7 +203,8 @@
                 ID = 2,
                 SubID = "subID",
                 GroupName = "testGroup",
-                Text = "old text"
+                Text = "old text",
+                IsLatest = true
             };
 
             databaseHelper.Insert(comment);
@@ -227,21 +231,24 @@
             {
                 ID = 2,
                 OrderNumber = 0,
-                GroupName = "testGroup"
+                GroupName = "testGroup",
+                IsLatest = true
             };
 
             var comment2 = new Comment()
             {
                 ID = 3,
                 OrderNumber = 1,
-                GroupName = "testGroup"
+                GroupName = "testGroup",
+                IsLatest = true
             };
 
             var comment3 = new Comment()
             {
                 ID = 4,
                 OrderNumber = 4,
-                GroupName = "otherGroup"
+                GroupName = "otherGroup",
+                IsLatest = true
             };
 
             DBHelper databaseHelper = new DBHelper(databaseName, tableName);
