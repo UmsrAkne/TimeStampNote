@@ -9,6 +9,21 @@
         public string OpenEditor(string fileName)
         {
             File.Create(fileName).Dispose();
+            return Open(fileName);
+        }
+
+        public string OpenEditor(string fileName, string defaultContent)
+        {
+            using (var sw = File.CreateText(fileName))
+            { 
+                sw.Write(defaultContent);
+            }
+
+            return Open(fileName);
+        }
+
+        private string Open(string fileName)
+        {
             var proc = new Process();
             proc.StartInfo.FileName = fileName;
             proc.StartInfo.UseShellExecute = true;

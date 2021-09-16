@@ -11,6 +11,7 @@
     {
         private string title = "Prism Application";
         private DelegateCommand addCommentCommand;
+        private DelegateCommand<string> editCommentCommand;
         private DelegateCommand addGroupCommand;
         private DelegateCommand executeCommandCommand;
         private DelegateCommand getCommentCommand;
@@ -48,6 +49,7 @@
             var comment = new Comment();
             comment.GenerateSubID();
             comment.Text = Reader.OpenEditor($"{comment.SubID}.txt");
+            comment.OrderNumber = DBHelper.GetNextOrderNumberInGroup();
             comment.PostedDate = DateTime.Now;
             comment.ID = DBHelper.GetMaxInColumn("comments", nameof(Comment.ID)) + 1;
             comment.GroupName = DBHelper.CurrentGroupName;
@@ -67,6 +69,30 @@
             DBHelper.Insert(comment);
         }));
 
+        public DelegateCommand<string> EditCommentCommand => editCommentCommand ?? (editCommentCommand = new DelegateCommand<string>((subID) =>
+        {
+            var comment = DBHelper.GetLatastCommentFromSubID(subID);
+            if (comment != null)
+            {
+                var updatedText = Reader.OpenEditor($"{comment.SubID}.txt", comment.Text);
+                if (comment.Text != updatedText)
+                {
+                    comment.IsLatest = false;
+                    DBHelper.Update(comment);
+                    DBHelper.Insert(new Comment()
+                    {
+                        ID = DBHelper.GetMaxInColumn("comments", nameof(Comment.ID)) + 1,
+                        SubID = comment.SubID,
+                        OrderNumber = comment.OrderNumber,
+                        Text = updatedText,
+                        PostedDate = DateTime.Now,
+                        GroupName = DBHelper.CurrentGroupName,
+                        IsLatest = true
+                    });
+                }
+            }
+        }));
+
         public DelegateCommand ExecuteCommandCommand => executeCommandCommand ?? (executeCommandCommand = new DelegateCommand(() =>
         {
             var regOption = RegexOptions.IgnoreCase;
@@ -79,6 +105,11 @@
             if (Regex.IsMatch(CommandText, "^add-?group ", regOption))
             {
                 AddGroupCommand.Execute();
+            }
+
+            if (Regex.IsMatch(CommandText, "^edit .+", regOption))
+            {
+                EditCommentCommand.Execute(Regex.Matches(CommandText, "^edit (.*)", regOption)[0].Groups[1].Value);
             }
 
             GetCommentCommand.Execute();

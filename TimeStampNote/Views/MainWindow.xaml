@@ -32,6 +32,7 @@
                 <MenuItem Header="Command">
                     <MenuItem Command="{Binding AddCommentCommand}" Header="Add" />
                     <MenuItem Command="{Binding AddGroupCommand}" Header="Add-Group" />
+                    <MenuItem Header="edit &quot;subID&quot; " IsEnabled="False" />
                 </MenuItem>
             </Menu>
 

@@ -23,6 +23,7 @@
             var createTableSql = $"CREATE TABLE IF NOT EXISTS {TableName} (";
             createTableSql += $"{nameof(Comment.ID)} INTEGER PRIMARY KEY NOT NULL, ";
             createTableSql += $"{nameof(Comment.SubID)} TEXT , ";
+            createTableSql += $"{nameof(Comment.OrderNumber)} INTEGER NOT NULL, ";
             createTableSql += $"{nameof(Comment.Text)} TEXT , ";
             createTableSql += $"{nameof(Comment.PostedDate)} TEXT , ";
             createTableSql += $"{nameof(Comment.IsLatest)} TEXT , ";
@@ -102,6 +103,17 @@
             return (long)dics[0]["MAX(" + columnName + ")"];
         }
 
+        public long GetNextOrderNumberInGroup()
+        {
+            if (GetRecordCount(TableName) == 0)
+            {
+                return 0;
+            }
+
+            var commandText = $"select max({nameof(Comment.OrderNumber)}) from {TableName} where {nameof(Comment.GroupName)} = '{CurrentGroupName}';";
+            return (long)Select(commandText)[0][$"max({nameof(Comment.OrderNumber)})"] + 1;
+        }
+
         /// <summary>
         /// 指定したテーブルに入っている総レコード数を取得します
         /// </summary>
@@ -127,7 +139,11 @@
         public List<Comment> GetGroupComments()
         {
             var comments = new List<Comment>();
-            var sql = $"SELECT * FROM {TableName} WHERE {nameof(Comment.GroupName)} = '{CurrentGroupName}';";
+            var sql = $"SELECT * FROM {TableName} " +
+                $"WHERE {nameof(Comment.GroupName)} = '{CurrentGroupName}'" +
+                $"AND {nameof(Comment.IsLatest)} = '{true}'" +
+                $"ORDER BY {nameof(Comment.OrderNumber)};";
+
             Select(sql).ForEach(d => comments.Add(ToComment(d)));
             return comments;
         }
@@ -137,6 +153,7 @@
             var commandText = $"INSERT INTO {TableName} " +
                 $"({nameof(Comment.ID)}, " +
                 $"{nameof(Comment.SubID)}, " +
+                $"{nameof(Comment.OrderNumber)}, " +
                 $"{nameof(Comment.PostedDate)}, " +
                 $"{nameof(Comment.Text)}, " +
                 $"{nameof(Comment.IsLatest)}, " +
@@ -144,12 +161,35 @@
                 $"values " +
                 $"({comment.ID}, " +
                 $"'{comment.SubID}', " +
+                $"{comment.OrderNumber}," +
                 $"'{comment.PostedDate}', " +
                 $"'{comment.Text}', " +
                 $"'{comment.IsLatest}', " +
                 $"'{comment.GroupName}');";
 
             ExecuteNonQuery(commandText);
+        }
+
+        public void Update(Comment comment)
+        {
+            var commandText = $"UPDATE {TableName} SET " +
+                $"{nameof(Comment.SubID)} = '{comment.SubID}', " +
+                $"{nameof(Comment.PostedDate)} = '{comment.PostedDate}', " +
+                $"{nameof(Comment.Text)} = '{comment.Text}', " +
+                $"{nameof(Comment.IsLatest)} = '{comment.IsLatest}', " +
+                $"{nameof(Comment.GroupName)} = '{comment.GroupName}' " +
+                $"WHERE {nameof(Comment.ID)} = {comment.ID};";
+
+            ExecuteNonQuery(commandText);
+        }
+
+        public Comment GetLatastCommentFromSubID(string partOfSubID)
+        {
+            var dics = Select($"SELECT * FROM {TableName} WHERE " +
+                $"{nameof(Comment.SubID)} LIKE '%{partOfSubID}%'" +
+                $"AND {nameof(Comment.IsLatest)} = '{true}';");
+
+            return dics.Count == 1 ? ToComment(dics[0]) : null;
         }
 
         public List<string> GetGroupNames()
