@@ -183,5 +183,36 @@
             Assert.AreEqual(comments[1].ID, 4);
             Assert.AreEqual(comments.Count, 2);
         }
+
+        [TestMethod]
+        public void UpdateTest()
+        {
+            if (File.Exists(databaseName))
+            {
+                File.Delete(databaseName);
+            }
+
+            DBHelper databaseHelper = new DBHelper(databaseName, tableName);
+            databaseHelper.CurrentGroupName = "testGroup";
+
+            var comment = new Comment()
+            {
+                ID = 2,
+                SubID = "subID",
+                GroupName = "testGroup",
+                Text = "old text"
+            };
+
+            databaseHelper.Insert(comment);
+
+            comment.SubID = "abcdef";
+            comment.Text = "updated";
+            databaseHelper.Update(comment);
+
+            var comment2 = databaseHelper.GetGroupComments()[0];
+
+            Assert.AreEqual(comment2.SubID, "abcdef");
+            Assert.AreEqual(comment2.Text, "updated");
+        }
     }
 }

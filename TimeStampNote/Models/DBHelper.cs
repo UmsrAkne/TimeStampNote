@@ -152,6 +152,19 @@
             ExecuteNonQuery(commandText);
         }
 
+        public void Update(Comment comment)
+        {
+            var commandText = $"UPDATE {TableName} SET " +
+                $"{nameof(Comment.SubID)} = '{comment.SubID}', " +
+                $"{nameof(Comment.PostedDate)} = '{comment.PostedDate}', " +
+                $"{nameof(Comment.Text)} = '{comment.Text}', " +
+                $"{nameof(Comment.IsLatest)} = '{comment.IsLatest}', " +
+                $"{nameof(Comment.GroupName)} = '{comment.GroupName}' " +
+                $"WHERE {nameof(Comment.ID)} = {comment.ID};";
+
+            ExecuteNonQuery(commandText);
+        }
+
         public Comment GetLatastCommentFromSubID(string partOfSubID)
         {
             var dics = Select($"SELECT * FROM {TableName} WHERE " +
