@@ -49,6 +49,7 @@
             var comment = new Comment();
             comment.GenerateSubID();
             comment.Text = Reader.OpenEditor($"{comment.SubID}.txt");
+            comment.OrderNumber = DBHelper.GetNextOrderNumberInGroup();
             comment.PostedDate = DateTime.Now;
             comment.ID = DBHelper.GetMaxInColumn("comments", nameof(Comment.ID)) + 1;
             comment.GroupName = DBHelper.CurrentGroupName;
@@ -82,6 +83,7 @@
                     {
                         ID = DBHelper.GetMaxInColumn("comments", nameof(Comment.ID)) + 1,
                         SubID = comment.SubID,
+                        OrderNumber = comment.OrderNumber,
                         Text = updatedText,
                         PostedDate = DateTime.Now,
                         GroupName = DBHelper.CurrentGroupName,

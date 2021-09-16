@@ -139,7 +139,11 @@
         public List<Comment> GetGroupComments()
         {
             var comments = new List<Comment>();
-            var sql = $"SELECT * FROM {TableName} WHERE {nameof(Comment.GroupName)} = '{CurrentGroupName}';";
+            var sql = $"SELECT * FROM {TableName} " +
+                $"WHERE {nameof(Comment.GroupName)} = '{CurrentGroupName}'" +
+                $"AND {nameof(Comment.IsLatest)} = '{true}'" +
+                $"ORDER BY {nameof(Comment.OrderNumber)};";
+
             Select(sql).ForEach(d => comments.Add(ToComment(d)));
             return comments;
         }
