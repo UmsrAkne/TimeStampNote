@@ -214,5 +214,48 @@
             Assert.AreEqual(comment2.SubID, "abcdef");
             Assert.AreEqual(comment2.Text, "updated");
         }
+
+        [TestMethod]
+        public void GetNextOrderNumberInGroupTest()
+        {
+            if (File.Exists(databaseName))
+            {
+                File.Delete(databaseName);
+            }
+
+            var comment = new Comment()
+            {
+                ID = 2,
+                OrderNumber = 0,
+                GroupName = "testGroup"
+            };
+
+            var comment2 = new Comment()
+            {
+                ID = 3,
+                OrderNumber = 1,
+                GroupName = "testGroup"
+            };
+
+            var comment3 = new Comment()
+            {
+                ID = 4,
+                OrderNumber = 4,
+                GroupName = "otherGroup"
+            };
+
+            DBHelper databaseHelper = new DBHelper(databaseName, tableName);
+            databaseHelper.CurrentGroupName = "testGroup";
+
+            Assert.AreEqual(databaseHelper.GetNextOrderNumberInGroup(), 0);
+
+            databaseHelper.Insert(comment);
+            databaseHelper.Insert(comment2);
+            databaseHelper.Insert(comment3);
+            Assert.AreEqual(databaseHelper.GetNextOrderNumberInGroup(), 2);
+
+            databaseHelper.CurrentGroupName = "otherGroup";
+            Assert.AreEqual(databaseHelper.GetNextOrderNumberInGroup(), 5);
+        }
     }
 }

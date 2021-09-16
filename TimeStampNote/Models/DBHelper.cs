@@ -23,6 +23,7 @@
             var createTableSql = $"CREATE TABLE IF NOT EXISTS {TableName} (";
             createTableSql += $"{nameof(Comment.ID)} INTEGER PRIMARY KEY NOT NULL, ";
             createTableSql += $"{nameof(Comment.SubID)} TEXT , ";
+            createTableSql += $"{nameof(Comment.OrderNumber)} INTEGER NOT NULL, ";
             createTableSql += $"{nameof(Comment.Text)} TEXT , ";
             createTableSql += $"{nameof(Comment.PostedDate)} TEXT , ";
             createTableSql += $"{nameof(Comment.IsLatest)} TEXT , ";
@@ -102,6 +103,17 @@
             return (long)dics[0]["MAX(" + columnName + ")"];
         }
 
+        public long GetNextOrderNumberInGroup()
+        {
+            if (GetRecordCount(TableName) == 0)
+            {
+                return 0;
+            }
+
+            var commandText = $"select max({nameof(Comment.OrderNumber)}) from {TableName} where {nameof(Comment.GroupName)} = '{CurrentGroupName}';";
+            return (long)Select(commandText)[0][$"max({nameof(Comment.OrderNumber)})"] + 1;
+        }
+
         /// <summary>
         /// 指定したテーブルに入っている総レコード数を取得します
         /// </summary>
@@ -137,6 +149,7 @@
             var commandText = $"INSERT INTO {TableName} " +
                 $"({nameof(Comment.ID)}, " +
                 $"{nameof(Comment.SubID)}, " +
+                $"{nameof(Comment.OrderNumber)}, " +
                 $"{nameof(Comment.PostedDate)}, " +
                 $"{nameof(Comment.Text)}, " +
                 $"{nameof(Comment.IsLatest)}, " +
@@ -144,6 +157,7 @@
                 $"values " +
                 $"({comment.ID}, " +
                 $"'{comment.SubID}', " +
+                $"{comment.OrderNumber}," +
                 $"'{comment.PostedDate}', " +
                 $"'{comment.Text}', " +
                 $"'{comment.IsLatest}', " +

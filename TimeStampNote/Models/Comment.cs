@@ -25,6 +25,8 @@
 
         public string GroupName { get; set; }
 
+        public long OrderNumber { get; set; }
+
         /// <summary>
         /// SubID 用の文字列を生成し、SubID にセットします。
         /// </summary>
