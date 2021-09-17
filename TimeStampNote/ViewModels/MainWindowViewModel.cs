@@ -97,7 +97,7 @@
         {
             var regOption = RegexOptions.IgnoreCase;
 
-            if (Regex.IsMatch(CommandText, "^add ", regOption))
+            if (Regex.IsMatch(CommandText, "^(a|add)( |$)", regOption))
             {
                 AddCommentCommand.Execute();
             }
@@ -107,9 +107,9 @@
                 AddGroupCommand.Execute();
             }
 
-            if (Regex.IsMatch(CommandText, "^edit .+", regOption))
+            if (Regex.IsMatch(CommandText, "^(e|edit) .+", regOption))
             {
-                EditCommentCommand.Execute(Regex.Matches(CommandText, "^edit (.*)", regOption)[0].Groups[1].Value);
+                EditCommentCommand.Execute(Regex.Matches(CommandText, "^(e|edit) (.*)", regOption)[0].Groups[2].Value);
             }
 
             GetCommentCommand.Execute();
