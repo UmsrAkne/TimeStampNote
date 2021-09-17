@@ -209,6 +209,7 @@
         {
             ID = (long)dic[nameof(Comment.ID)],
             SubID = (string)dic[nameof(Comment.SubID)],
+            OrderNumber = (long)dic[nameof(Comment.OrderNumber)],
             PostedDate = DateTime.Parse((string)dic[nameof(Comment.PostedDate)]),
             GroupName = (string)dic[nameof(Comment.GroupName)],
             Text = (string)dic[nameof(Comment.Text)],
