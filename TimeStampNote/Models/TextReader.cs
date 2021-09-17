@@ -37,13 +37,14 @@
                 text = reader.ReadToEnd();
             }
 
-            if (text.Substring(text.Length - 1) == "\n")
+            File.Delete(fileName);
+
+            if (text == string.Empty)
             {
-                text = text.Remove(text.Length - 1, 1);
+                return string.Empty;
             }
 
-            File.Delete(fileName);
-            return text;
+            return text.Substring(text.Length - 1) == "\n" ? text.Remove(text.Length - 1, 1) : text;
         }
     }
 }
