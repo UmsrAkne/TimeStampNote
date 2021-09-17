@@ -97,7 +97,7 @@
         {
             var regOption = RegexOptions.IgnoreCase;
 
-            if (Regex.IsMatch(CommandText, "^add ", regOption))
+            if (Regex.IsMatch(CommandText, "^(a|add)( |$)", regOption))
             {
                 AddCommentCommand.Execute();
             }
