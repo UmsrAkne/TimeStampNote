@@ -8,7 +8,18 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border Background="WhiteSmoke" BorderThickness="0.5">
+                    <Border BorderThickness="0.5">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IndexIsEven}" Value="True">
+                                        <Setter Property="Background" Value="WhiteSmoke" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+
+                        </Border.Style>
+
                         <StackPanel Orientation="Horizontal">
 
                             <StackPanel.Resources>
@@ -16,6 +27,7 @@
                                     <Setter Property="FontSize" Value="15" />
                                     <Setter Property="FontFamily" Value="BIZ UDゴシック" />
                                     <Setter Property="LineHeight" Value="18" />
+
                                 </Style>
                             </StackPanel.Resources>
 

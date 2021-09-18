@@ -144,7 +144,17 @@
                 $"AND {nameof(Comment.IsLatest)} = '{true}'" +
                 $"ORDER BY {nameof(Comment.OrderNumber)};";
 
-            Select(sql).ForEach(d => comments.Add(ToComment(d)));
+            bool indexIsEven = true;
+
+            Select(sql).ForEach(d =>
+            {
+                var c = ToComment(d);
+                c.IndexIsEven = indexIsEven;
+                indexIsEven = !indexIsEven;
+
+                comments.Add(c);
+            });
+
             return comments;
         }
 
