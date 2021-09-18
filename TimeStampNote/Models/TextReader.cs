@@ -15,7 +15,7 @@
         public string OpenEditor(string fileName, string defaultContent)
         {
             using (var sw = File.CreateText(fileName))
-            { 
+            {
                 sw.Write(defaultContent);
             }
 
