@@ -69,6 +69,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\NumberFormatConverter.cs" />
     <Compile Include="Models\DateTimeConverter.cs" />
     <Compile Include="Models\DBHelper.cs" />
     <Compile Include="Models\IDBHelper.cs" />

@@ -27,6 +27,8 @@
 
         public long OrderNumber { get; set; }
 
+        public bool IndexIsEven { get; set; } 
+
         /// <summary>
         /// SubID 用の文字列を生成し、SubID にセットします。
         /// </summary>

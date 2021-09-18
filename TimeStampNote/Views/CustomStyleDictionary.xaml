@@ -3,26 +3,41 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:models="clr-namespace:TimeStampNote.Models">
     <models:DateTimeConverter x:Key="DateTimeConverter" />
+    <models:NumberFormatConverter x:Key="NumberFormatConverter" />
     <Style TargetType="ListViewItem">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border Background="WhiteSmoke" BorderThickness="0.5">
+                    <Border BorderThickness="0.5">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IndexIsEven}" Value="True">
+                                        <Setter Property="Background" Value="WhiteSmoke" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+
+                        </Border.Style>
+
                         <StackPanel Orientation="Horizontal">
 
                             <StackPanel.Resources>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="FontSize" Value="14" />
+                                    <Setter Property="FontSize" Value="15" />
                                     <Setter Property="FontFamily" Value="BIZ UDゴシック" />
+                                    <Setter Property="LineHeight" Value="18" />
+
                                 </Style>
                             </StackPanel.Resources>
 
-                            <TextBlock Width="30" Text="{Binding ID}" />
+                            <TextBlock Width="45" Text="{Binding ID, Converter={StaticResource NumberFormatConverter}}" />
+
                             <TextBlock
-                                Width="50"
+                                Width="60"
                                 Text="{Binding SubID}"
                                 TextTrimming="CharacterEllipsis" />
-                            <TextBlock Margin="3,0,6,0" Text="{Binding PostedDate, Converter={StaticResource DateTimeConverter}}" />
+                            <TextBlock Margin="6,0,10,0" Text="{Binding PostedDate, Converter={StaticResource DateTimeConverter}}" />
                             <TextBlock Text="{Binding Text}" />
                         </StackPanel>
 
