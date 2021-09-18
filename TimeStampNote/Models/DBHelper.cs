@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Data.SQLite;
     using System.IO;
+    using System.Linq;
     using Prism.Mvvm;
 
     public class DBHelper : BindableBase, IDBHelper
@@ -138,7 +139,6 @@
 
         public List<Comment> GetGroupComments()
         {
-            var comments = new List<Comment>();
             var sql = $"SELECT * FROM {TableName} " +
                 $"WHERE {nameof(Comment.GroupName)} = '{CurrentGroupName}'" +
                 $"AND {nameof(Comment.IsLatest)} = '{true}'" +
@@ -146,16 +146,13 @@
 
             bool indexIsEven = true;
 
-            Select(sql).ForEach(d =>
+            return Select(sql).Select(d =>
             {
-                var c = ToComment(d);
-                c.IndexIsEven = indexIsEven;
+                var comment = ToComment(d);
+                comment.IndexIsEven = indexIsEven;
                 indexIsEven = !indexIsEven;
-
-                comments.Add(c);
-            });
-
-            return comments;
+                return comment;
+            }).ToList();
         }
 
         public void Insert(Comment comment)
@@ -205,14 +202,7 @@
         public List<string> GetGroupNames()
         {
             var dics = Select($"SELECT DISTINCT {nameof(Comment.GroupName)} FROM {TableName};");
-
-            var names = new List<string>();
-            dics.ForEach(d =>
-            {
-                names.Add((string)d[nameof(Comment.GroupName)]);
-            });
-
-            return names;
+            return dics.Select(d => (string)d[nameof(Comment.GroupName)]).ToList();
         }
 
         private Comment ToComment(Dictionary<string, object> dic) => new Comment()
