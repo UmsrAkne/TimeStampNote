@@ -15,6 +15,7 @@
                                 <Style TargetType="TextBlock">
                                     <Setter Property="FontSize" Value="15" />
                                     <Setter Property="FontFamily" Value="BIZ UDゴシック" />
+                                    <Setter Property="LineHeight" Value="18" />
                                 </Style>
                             </StackPanel.Resources>
 
