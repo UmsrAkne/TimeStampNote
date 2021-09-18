@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:models="clr-namespace:TimeStampNote.Models">
     <models:DateTimeConverter x:Key="DateTimeConverter" />
+    <models:NumberFormatConverter x:Key="NumberFormatConverter" />
     <Style TargetType="ListViewItem">
         <Setter Property="Template">
             <Setter.Value>
@@ -17,7 +18,8 @@
                                 </Style>
                             </StackPanel.Resources>
 
-                            <TextBlock Width="30" Text="{Binding ID}" />
+                            <TextBlock Width="45" Text="{Binding ID, Converter={StaticResource NumberFormatConverter}}" />
+
                             <TextBlock
                                 Width="60"
                                 Text="{Binding SubID}"
