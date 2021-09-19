@@ -23,22 +23,38 @@
                         <StackPanel Orientation="Horizontal">
 
                             <StackPanel.Resources>
-                                <Style TargetType="TextBlock">
+                                <Style x:Key="ListViewTextBlockStyle" TargetType="TextBlock">
                                     <Setter Property="FontSize" Value="15" />
                                     <Setter Property="FontFamily" Value="BIZ UDゴシック" />
                                     <Setter Property="LineHeight" Value="18" />
-
                                 </Style>
                             </StackPanel.Resources>
 
-                            <TextBlock Width="45" Text="{Binding ID, Converter={StaticResource NumberFormatConverter}}" />
+                            <TextBlock
+                                Width="45"
+                                Style="{StaticResource ListViewTextBlockStyle}"
+                                Text="{Binding ID, Converter={StaticResource NumberFormatConverter}}"
+                                Visibility="{Binding ElementName=mainWindow, Path=DataContext.ColumnVisibility.IDColumn}" />
 
                             <TextBlock
                                 Width="60"
+                                Style="{StaticResource ListViewTextBlockStyle}"
                                 Text="{Binding SubID}"
-                                TextTrimming="CharacterEllipsis" />
-                            <TextBlock Margin="6,0,10,0" Text="{Binding PostedDate, Converter={StaticResource DateTimeConverter}}" />
-                            <TextBlock Text="{Binding Text}" />
+                                TextTrimming="CharacterEllipsis"
+                                Visibility="{Binding ElementName=mainWindow, Path=DataContext.ColumnVisibility.SubIDColumn}" />
+
+                            <TextBlock
+                                Margin="6,0,10,0"
+                                Style="{StaticResource ListViewTextBlockStyle}"
+                                Text="{Binding PostedDate, Converter={StaticResource DateTimeConverter}}"
+                                Visibility="{Binding ElementName=mainWindow, Path=DataContext.ColumnVisibility.DateColumn}" />
+
+                            <TextBlock Text="{Binding Text}">
+                                <TextBlock.Style>
+                                    <Style BasedOn="{StaticResource ResourceKey=ListViewTextBlockStyle}" TargetType="TextBlock" />
+                                </TextBlock.Style>
+                            </TextBlock>
+
                         </StackPanel>
 
                     </Border>

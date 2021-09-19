@@ -16,6 +16,8 @@
         private DelegateCommand executeCommandCommand;
         private DelegateCommand getCommentCommand;
         private DelegateCommand reloadGroupNamesCommand;
+        private DelegateCommand<string> toggleVisibilityCommand;
+
         private string commandText = string.Empty;
 
         public MainWindowViewModel()
@@ -43,6 +45,8 @@
             get { return title; }
             set { SetProperty(ref title, value); }
         }
+
+        public ColumnVisibility ColumnVisibility { get; private set; } = new ColumnVisibility();
 
         public DelegateCommand AddCommentCommand => addCommentCommand ?? (addCommentCommand = new DelegateCommand(() =>
         {
@@ -112,6 +116,12 @@
                 EditCommentCommand.Execute(Regex.Matches(CommandText, "^(e|edit) (.*)", regOption)[0].Groups[2].Value);
             }
 
+            if (Regex.IsMatch(CommandText, "^(v|view) .+", regOption))
+            {
+                string subCommand = Regex.Match(CommandText, "^(v|view) (.*)$", regOption).Groups[2].Value.ToLower();
+                ToggleVisibilityCommand.Execute(subCommand);
+            }
+
             GetCommentCommand.Execute();
             CommandText = string.Empty;
         }));
@@ -126,6 +136,24 @@
         {
             GroupNames.Clear();
             GroupNames.AddRange(DBHelper.GetGroupNames());
+        }));
+
+        public DelegateCommand<string> ToggleVisibilityCommand => toggleVisibilityCommand ?? (toggleVisibilityCommand = new DelegateCommand<string>((string param) =>
+        {
+            switch (param)
+            {
+                case "id":
+                    ColumnVisibility.IDColumn = ColumnVisibility.ToggleVisibleAndCollapsed(ColumnVisibility.IDColumn);
+                    break;
+
+                case "subid":
+                    ColumnVisibility.SubIDColumn = ColumnVisibility.ToggleVisibleAndCollapsed(ColumnVisibility.SubIDColumn);
+                    break;
+
+                case "date":
+                    ColumnVisibility.DateColumn = ColumnVisibility.ToggleVisibleAndCollapsed(ColumnVisibility.DateColumn);
+                    break;
+            }
         }));
     }
 }
