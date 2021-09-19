@@ -1,6 +1,7 @@
 ﻿namespace TimeStampNote.ViewModels
 {
     using System;
+    using System.Windows;
     using System.Collections.ObjectModel;
     using System.Text.RegularExpressions;
     using Prism.Commands;
@@ -112,6 +113,26 @@
             if (Regex.IsMatch(CommandText, "^(e|edit) .+", regOption))
             {
                 EditCommentCommand.Execute(Regex.Matches(CommandText, "^(e|edit) (.*)", regOption)[0].Groups[2].Value);
+            }
+
+            if (Regex.IsMatch(CommandText, "^(v|view) .+", regOption))
+            {
+                string subCommand = Regex.Match(CommandText, "^(v|view) (.*)$", regOption).Groups[2].Value.ToLower();
+
+                switch (subCommand)
+                {
+                    case "id":
+                        ColumnVisibility.IDColumn = ColumnVisibility.toggleVisibleAndCollapsed(ColumnVisibility.IDColumn);
+                        break;
+
+                    case "subid":
+                        ColumnVisibility.SubIDColumn = ColumnVisibility.toggleVisibleAndCollapsed(ColumnVisibility.SubIDColumn);
+                        break;
+
+                    case "date":
+                        ColumnVisibility.DateColumn = ColumnVisibility.toggleVisibleAndCollapsed(ColumnVisibility.DateColumn);
+                        break;
+                }
             }
 
             GetCommentCommand.Execute();
