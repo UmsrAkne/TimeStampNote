@@ -143,15 +143,15 @@
             switch (param)
             {
                 case "id":
-                    ColumnVisibility.IDColumn = ColumnVisibility.toggleVisibleAndCollapsed(ColumnVisibility.IDColumn);
+                    ColumnVisibility.IDColumn = ColumnVisibility.ToggleVisibleAndCollapsed(ColumnVisibility.IDColumn);
                     break;
 
                 case "subid":
-                    ColumnVisibility.SubIDColumn = ColumnVisibility.toggleVisibleAndCollapsed(ColumnVisibility.SubIDColumn);
+                    ColumnVisibility.SubIDColumn = ColumnVisibility.ToggleVisibleAndCollapsed(ColumnVisibility.SubIDColumn);
                     break;
 
                 case "date":
-                    ColumnVisibility.DateColumn = ColumnVisibility.toggleVisibleAndCollapsed(ColumnVisibility.DateColumn);
+                    ColumnVisibility.DateColumn = ColumnVisibility.ToggleVisibleAndCollapsed(ColumnVisibility.DateColumn);
                     break;
             }
         }));

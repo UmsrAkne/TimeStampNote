@@ -34,7 +34,7 @@
             set => SetProperty(ref orderNumberColumn, value);
         }
 
-        public Visibility toggleVisibleAndCollapsed(Visibility currentVisibility) =>
+        public Visibility ToggleVisibleAndCollapsed(Visibility currentVisibility) =>
             currentVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
     }
 }
