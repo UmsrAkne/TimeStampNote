@@ -44,6 +44,8 @@
             set { SetProperty(ref title, value); }
         }
 
+        public ColumnVisibility ColumnVisibility { get; private set; } = new ColumnVisibility();
+
         public DelegateCommand AddCommentCommand => addCommentCommand ?? (addCommentCommand = new DelegateCommand(() =>
         {
             var comment = new Comment();
