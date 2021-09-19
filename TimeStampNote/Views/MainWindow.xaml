@@ -34,6 +34,21 @@
                     <MenuItem Command="{Binding AddCommentCommand}" Header="Add" />
                     <MenuItem Command="{Binding AddGroupCommand}" Header="Add-Group" />
                     <MenuItem Header="edit &quot;subID&quot; " IsEnabled="False" />
+
+                    <MenuItem
+                        Command="{Binding ToggleVisibilityCommand}"
+                        CommandParameter="id"
+                        Header="View ID" />
+
+                    <MenuItem
+                        Command="{Binding ToggleVisibilityCommand}"
+                        CommandParameter="subid"
+                        Header="View SubID" />
+
+                    <MenuItem
+                        Command="{Binding ToggleVisibilityCommand}"
+                        CommandParameter="date"
+                        Header="View Date" />
                 </MenuItem>
             </Menu>
 

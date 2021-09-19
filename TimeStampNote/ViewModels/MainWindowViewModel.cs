@@ -1,7 +1,6 @@
 ﻿namespace TimeStampNote.ViewModels
 {
     using System;
-    using System.Windows;
     using System.Collections.ObjectModel;
     using System.Text.RegularExpressions;
     using Prism.Commands;
@@ -17,6 +16,8 @@
         private DelegateCommand executeCommandCommand;
         private DelegateCommand getCommentCommand;
         private DelegateCommand reloadGroupNamesCommand;
+        private DelegateCommand<string> toggleVisibilityCommand;
+
         private string commandText = string.Empty;
 
         public MainWindowViewModel()
@@ -118,21 +119,7 @@
             if (Regex.IsMatch(CommandText, "^(v|view) .+", regOption))
             {
                 string subCommand = Regex.Match(CommandText, "^(v|view) (.*)$", regOption).Groups[2].Value.ToLower();
-
-                switch (subCommand)
-                {
-                    case "id":
-                        ColumnVisibility.IDColumn = ColumnVisibility.toggleVisibleAndCollapsed(ColumnVisibility.IDColumn);
-                        break;
-
-                    case "subid":
-                        ColumnVisibility.SubIDColumn = ColumnVisibility.toggleVisibleAndCollapsed(ColumnVisibility.SubIDColumn);
-                        break;
-
-                    case "date":
-                        ColumnVisibility.DateColumn = ColumnVisibility.toggleVisibleAndCollapsed(ColumnVisibility.DateColumn);
-                        break;
-                }
+                ToggleVisibilityCommand.Execute(subCommand);
             }
 
             GetCommentCommand.Execute();
@@ -149,6 +136,24 @@
         {
             GroupNames.Clear();
             GroupNames.AddRange(DBHelper.GetGroupNames());
+        }));
+
+        public DelegateCommand<string> ToggleVisibilityCommand => toggleVisibilityCommand ?? (toggleVisibilityCommand = new DelegateCommand<string>((string param) =>
+        {
+            switch (param)
+            {
+                case "id":
+                    ColumnVisibility.IDColumn = ColumnVisibility.toggleVisibleAndCollapsed(ColumnVisibility.IDColumn);
+                    break;
+
+                case "subid":
+                    ColumnVisibility.SubIDColumn = ColumnVisibility.toggleVisibleAndCollapsed(ColumnVisibility.SubIDColumn);
+                    break;
+
+                case "date":
+                    ColumnVisibility.DateColumn = ColumnVisibility.toggleVisibleAndCollapsed(ColumnVisibility.DateColumn);
+                    break;
+            }
         }));
     }
 }
