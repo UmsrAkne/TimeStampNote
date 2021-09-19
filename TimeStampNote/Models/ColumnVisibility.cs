@@ -1,26 +1,34 @@
 ﻿namespace TimeStampNote.Models
 {
+    using System.Windows;
     using Prism.Mvvm;
 
     public class ColumnVisibility : BindableBase
     {
-        private bool idColumn = true;
-        private bool dateColumn = true;
-        private bool orderNumberColumn = true;
+        private Visibility idColumn = Visibility.Visible;
+        private Visibility subIDColumn = Visibility.Visible;
+        private Visibility dateColumn = Visibility.Visible;
+        private Visibility orderNumberColumn = Visibility.Visible;
 
-        public bool IDColumn
+        public Visibility IDColumn
         {
             get => idColumn;
             set => SetProperty(ref idColumn, value);
         }
 
-        public bool DateColumn
+        public Visibility SubIDColumn
+        {
+            get => subIDColumn;
+            set => SetProperty(ref subIDColumn, value);
+        }
+
+        public Visibility DateColumn
         {
             get => dateColumn;
             set => SetProperty(ref dateColumn, value);
         }
 
-        public bool OrderNumberColumn
+        public Visibility OrderNumberColumn
         {
             get => orderNumberColumn;
             set => SetProperty(ref orderNumberColumn, value);

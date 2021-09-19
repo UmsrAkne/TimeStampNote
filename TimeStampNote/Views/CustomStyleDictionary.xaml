@@ -30,48 +30,24 @@
                                 </Style>
                             </StackPanel.Resources>
 
-                            <TextBlock Width="45" Text="{Binding ID, Converter={StaticResource NumberFormatConverter}}">
-                                <TextBlock.Style>
-                                    <Style BasedOn="{StaticResource ResourceKey=ListViewTextBlockStyle}" TargetType="TextBlock">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=mainWindow, Path=DataContext.ColumnVisibility.IDColumn}" Value="False">
-                                                <Setter Property="Visibility" Value="Collapsed" />
-                                            </DataTrigger>
-
-                                            <DataTrigger Binding="{Binding ElementName=mainWindow, Path=DataContext.ColumnVisibility.IDColumn}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
+                            <TextBlock
+                                Width="45"
+                                Style="{StaticResource ListViewTextBlockStyle}"
+                                Text="{Binding ID, Converter={StaticResource NumberFormatConverter}}"
+                                Visibility="{Binding ElementName=mainWindow, Path=DataContext.ColumnVisibility.IDColumn}" />
 
                             <TextBlock
                                 Width="60"
+                                Style="{StaticResource ListViewTextBlockStyle}"
                                 Text="{Binding SubID}"
-                                TextTrimming="CharacterEllipsis">
+                                TextTrimming="CharacterEllipsis"
+                                Visibility="{Binding ElementName=mainWindow, Path=DataContext.ColumnVisibility.SubIDColumn}" />
 
-                                <TextBlock.Style>
-                                    <Style BasedOn="{StaticResource ResourceKey=ListViewTextBlockStyle}" TargetType="TextBlock" />
-                                </TextBlock.Style>
-                            </TextBlock>
-
-                            <TextBlock Margin="6,0,10,0" Text="{Binding PostedDate, Converter={StaticResource DateTimeConverter}}">
-                                <TextBlock.Style>
-                                    <Style BasedOn="{StaticResource ResourceKey=ListViewTextBlockStyle}" TargetType="TextBlock">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=mainWindow, Path=DataContext.ColumnVisibility.DateColumn}" Value="False">
-                                                <Setter Property="Visibility" Value="Collapsed" />
-                                            </DataTrigger>
-
-                                            <DataTrigger Binding="{Binding ElementName=mainWindow, Path=DataContext.ColumnVisibility.DateColumn}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
+                            <TextBlock
+                                Margin="6,0,10,0"
+                                Style="{StaticResource ListViewTextBlockStyle}"
+                                Text="{Binding PostedDate, Converter={StaticResource DateTimeConverter}}"
+                                Visibility="{Binding ElementName=mainWindow, Path=DataContext.ColumnVisibility.DateColumn}" />
 
                             <TextBlock Text="{Binding Text}">
                                 <TextBlock.Style>
