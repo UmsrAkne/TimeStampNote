@@ -27,6 +27,7 @@
         {
             ReloadGroupNamesCommand.Execute();
             GetCommentCommand.Execute();
+            UIColors.Theme = (Theme)Enum.ToObject(typeof(Theme), Properties.Settings.Default.Theme);
         }
 
         public UIColors UIColors { get; } = new UIColors(Theme.Light);
@@ -163,12 +164,22 @@
 
         public DelegateCommand ToLightThemeCommand
         {
-            get => toLigthThemeCommand ?? (toLigthThemeCommand = new DelegateCommand(() => UIColors.Theme = Theme.Light));
+            get => toLigthThemeCommand ?? (toLigthThemeCommand = new DelegateCommand(() =>
+            {
+                UIColors.Theme = Theme.Light;
+                Properties.Settings.Default.Theme = (int)Theme.Light;
+                Properties.Settings.Default.Save();
+            }));
         }
 
         public DelegateCommand ToDarkThemeCommand
         {
-            get => toDarkThemeCommand ?? (toDarkThemeCommand = new DelegateCommand(() => UIColors.Theme = Theme.Dark));
+            get => toDarkThemeCommand ?? (toDarkThemeCommand = new DelegateCommand(() =>
+            {
+                UIColors.Theme = Theme.Dark;
+                Properties.Settings.Default.Theme = (int)Theme.Dark;
+                Properties.Settings.Default.Save();
+            }));
         }
     }
 }
