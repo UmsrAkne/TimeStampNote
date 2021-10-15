@@ -18,6 +18,8 @@
         private DelegateCommand getCommentCommand;
         private DelegateCommand reloadGroupNamesCommand;
         private DelegateCommand<string> toggleVisibilityCommand;
+        private DelegateCommand toLigthThemeCommand;
+        private DelegateCommand toDarkThemeCommand;
 
         private string commandText = string.Empty;
 
@@ -158,5 +160,15 @@
                     break;
             }
         }));
+
+        public DelegateCommand ToLightThemeCommand
+        {
+            get => toLigthThemeCommand ?? (toLigthThemeCommand = new DelegateCommand(() => UIColors.Theme = Theme.Light));
+        }
+
+        public DelegateCommand ToDarkThemeCommand
+        {
+            get => toDarkThemeCommand ?? (toDarkThemeCommand = new DelegateCommand(() => UIColors.Theme = Theme.Dark));
+        }
     }
 }
