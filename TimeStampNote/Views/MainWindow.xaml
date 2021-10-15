@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:v="TimeStampNote.Views"
     Name="mainWindow"
     Title="{Binding Title}"
     Width="800"
@@ -50,6 +51,11 @@
                         CommandParameter="date"
                         Header="View Date" />
                 </MenuItem>
+
+                <MenuItem Header="Theme">
+                    <MenuItem Command="{Binding ToLightThemeCommand}" Header="Light" />
+                    <MenuItem Command="{Binding ToDarkThemeCommand}" Header="Dark" />
+                </MenuItem>
             </Menu>
 
             <ComboBox
@@ -67,16 +73,28 @@
                 </i:Interaction.Triggers>
             </ComboBox>
 
-            <TextBox x:Name="commandBox" Text="{Binding CommandText, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox
+                x:Name="commandBox"
+                Background="{Binding UIColors.BackgroundColorBrush}"
+                Foreground="{Binding UIColors.ForegroundColorBrush}"
+                Text="{Binding CommandText, UpdateSourceTrigger=PropertyChanged}">
+
                 <TextBox.InputBindings>
                     <KeyBinding Key="Return" Command="{Binding ExecuteCommandCommand}" />
                 </TextBox.InputBindings>
-
             </TextBox>
+
         </StackPanel>
-        <ListView Grid.Row="1" ItemsSource="{Binding Comments}" />
-        <StatusBar Grid.Row="2" Background="Gray">
+        <ListView
+            Grid.Row="1"
+            Background="{Binding UIColors.DeepBackgroundColorBrush}"
+            ItemsSource="{Binding Comments}" />
+        <StatusBar
+            Grid.Row="2"
+            Background="{Binding UIColors.BackgroundColorBrush}"
+            Foreground="{Binding UIColors.ForegroundColorBrush}">
             <TextBlock Text="bottomStatusBar" />
         </StatusBar>
+
     </Grid>
 </Window>

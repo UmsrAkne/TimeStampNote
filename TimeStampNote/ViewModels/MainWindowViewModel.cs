@@ -6,6 +6,7 @@
     using Prism.Commands;
     using Prism.Mvvm;
     using TimeStampNote.Models;
+    using TimeStampNote.Views;
 
     public class MainWindowViewModel : BindableBase
     {
@@ -17,6 +18,8 @@
         private DelegateCommand getCommentCommand;
         private DelegateCommand reloadGroupNamesCommand;
         private DelegateCommand<string> toggleVisibilityCommand;
+        private DelegateCommand toLigthThemeCommand;
+        private DelegateCommand toDarkThemeCommand;
 
         private string commandText = string.Empty;
 
@@ -24,7 +27,10 @@
         {
             ReloadGroupNamesCommand.Execute();
             GetCommentCommand.Execute();
+            UIColors.Theme = (Theme)Enum.ToObject(typeof(Theme), Properties.Settings.Default.Theme);
         }
+
+        public UIColors UIColors { get; } = new UIColors(Theme.Light);
 
         public TextReader Reader { private get; set; } = new TextReader();
 
@@ -155,5 +161,25 @@
                     break;
             }
         }));
+
+        public DelegateCommand ToLightThemeCommand
+        {
+            get => toLigthThemeCommand ?? (toLigthThemeCommand = new DelegateCommand(() =>
+            {
+                UIColors.Theme = Theme.Light;
+                Properties.Settings.Default.Theme = (int)Theme.Light;
+                Properties.Settings.Default.Save();
+            }));
+        }
+
+        public DelegateCommand ToDarkThemeCommand
+        {
+            get => toDarkThemeCommand ?? (toDarkThemeCommand = new DelegateCommand(() =>
+            {
+                UIColors.Theme = Theme.Dark;
+                Properties.Settings.Default.Theme = (int)Theme.Dark;
+                Properties.Settings.Default.Save();
+            }));
+        }
     }
 }
