@@ -6,6 +6,7 @@
     using Prism.Commands;
     using Prism.Mvvm;
     using TimeStampNote.Models;
+    using TimeStampNote.Views;
 
     public class MainWindowViewModel : BindableBase
     {
@@ -25,6 +26,8 @@
             ReloadGroupNamesCommand.Execute();
             GetCommentCommand.Execute();
         }
+
+        public UIColors UIColors { get; } = new UIColors(Theme.Light);
 
         public TextReader Reader { private get; set; } = new TextReader();
 
