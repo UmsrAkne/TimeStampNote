@@ -56,7 +56,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Views\Teema.cs" />
+    <Compile Include="Views\Theme.cs" />
     <Compile Include="Views\UIColors.cs" />
     <Page Include="Views\CustomStyleDictionary.xaml">
       <SubType>Designer</SubType>

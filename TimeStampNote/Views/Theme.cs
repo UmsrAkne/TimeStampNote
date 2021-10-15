@@ -1,6 +1,6 @@
 ﻿namespace TimeStampNote.Views
 {
-    public enum Teema
+    public enum Theme
     {
         Dark,
         Light
