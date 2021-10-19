@@ -1,5 +1,4 @@
-﻿namespace TimeStampNote.ViewModels
-{
+﻿namespace TimeStampNote.ViewModels {
     using System;
     using System.Collections.ObjectModel;
     using System.Text.RegularExpressions;
@@ -8,8 +7,7 @@
     using TimeStampNote.Models;
     using TimeStampNote.Views;
 
-    public class MainWindowViewModel : BindableBase
-    {
+    public class MainWindowViewModel : BindableBase {
         private string title = "Prism Application";
         private DelegateCommand addCommentCommand;
         private DelegateCommand<string> editCommentCommand;
@@ -28,6 +26,11 @@
             ReloadGroupNamesCommand.Execute();
             GetCommentCommand.Execute();
             UIColors.Theme = (Theme)Enum.ToObject(typeof(Theme), Properties.Settings.Default.Theme);
+
+            using (CommentDbContext context = new CommentDbContext())
+            {
+                context.Database.EnsureCreated();
+            }
         }
 
         public UIColors UIColors { get; } = new UIColors(Theme.Light);
@@ -40,14 +43,12 @@
 
         public ObservableCollection<string> GroupNames { get; private set; } = new ObservableCollection<string>();
 
-        public string CommandText
-        {
+        public string CommandText {
             get => commandText;
             set => SetProperty(ref commandText, value);
         }
 
-        public string Title
-        {
+        public string Title {
             get { return title; }
             set { SetProperty(ref title, value); }
         }
@@ -162,8 +163,7 @@
             }
         }));
 
-        public DelegateCommand ToLightThemeCommand
-        {
+        public DelegateCommand ToLightThemeCommand {
             get => toLigthThemeCommand ?? (toLigthThemeCommand = new DelegateCommand(() =>
             {
                 UIColors.Theme = Theme.Light;
@@ -172,8 +172,7 @@
             }));
         }
 
-        public DelegateCommand ToDarkThemeCommand
-        {
+        public DelegateCommand ToDarkThemeCommand {
             get => toDarkThemeCommand ?? (toDarkThemeCommand = new DelegateCommand(() =>
             {
                 UIColors.Theme = Theme.Dark;
