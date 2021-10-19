@@ -76,6 +76,8 @@
             <TextBox
                 x:Name="commandBox"
                 Background="{Binding UIColors.BackgroundColorBrush}"
+                FontFamily="BIZ UDゴシック"
+                FontSize="15"
                 Foreground="{Binding UIColors.ForegroundColorBrush}"
                 Text="{Binding CommandText, UpdateSourceTrigger=PropertyChanged}">
 
