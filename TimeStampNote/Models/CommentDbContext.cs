@@ -65,9 +65,15 @@
 
         public long GetNextOrderNumberInGroup(string groupName)
         {
-            return Comments.Where(c => c.GroupName == groupName)
-                .Select(c => c.OrderNumber)
-                .OrderByDescending(number => number).First() + 1;
+            var numbers = Comments.Where(c => c.GroupName == groupName).Select(c => c.OrderNumber).OrderByDescending(number => number);
+            return numbers.Count() != 0 ? numbers.First() : 0;
+
+        }
+
+        public long GetMaxID()
+        {
+            var ids = Comments.Select(c => c.ID).OrderByDescending(n => n);
+            return ids.Count() != 0 ? ids.First() : 0;
         }
     }
 }
