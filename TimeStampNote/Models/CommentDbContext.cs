@@ -58,5 +58,7 @@
         public List<Comment> GetGroupComments(string groupName) => Comments.Where(c => c.GroupName == groupName).ToList();
 
         public List<Comment> GetAll() => Comments.Select(comment => comment).ToList();
+
+        public int GetRecordCount() => Comments.Select(c => c).Count();
     }
 }
