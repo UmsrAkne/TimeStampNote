@@ -2,6 +2,7 @@
 {
     using Microsoft.Data.Sqlite;
     using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Collections.Generic;
     using System.Data.SQLite;
     using System.IO;
@@ -46,6 +47,12 @@
             target.GroupName = comment.GroupName;
             target.IsLatest = comment.IsLatest;
             SaveChanges();
+        }
+
+        public Comment GetLatastCommentFromSubID(string partOfSubID)
+        {
+            return Comments.Where(c => c.SubID.IndexOf(partOfSubID, StringComparison.OrdinalIgnoreCase) != -1)
+                   .OrderByDescending(c => c.PostedDate).First();
         }
 
         public List<Comment> GetAll() => Comments.Select(comment => comment).ToList();
