@@ -1,6 +1,7 @@
 ﻿namespace TimeStampNote.ViewModels
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Text.RegularExpressions;
     using Prism.Commands;
@@ -11,6 +12,7 @@
     public class MainWindowViewModel : BindableBase
     {
         private string title = "Prism Application";
+        private string groupName = "defaultGroup";
         private DelegateCommand addCommentCommand;
         private DelegateCommand<string> editCommentCommand;
         private DelegateCommand addGroupCommand;
@@ -28,13 +30,14 @@
             ReloadGroupNamesCommand.Execute();
             GetCommentCommand.Execute();
             UIColors.Theme = (Theme)Enum.ToObject(typeof(Theme), Properties.Settings.Default.Theme);
+            DbContext.CreateDatabase();
         }
 
         public UIColors UIColors { get; } = new UIColors(Theme.Light);
 
         public TextReader Reader { private get; set; } = new TextReader();
 
-        public DBHelper DBHelper { get; } = new DBHelper("memoDB", "comments");
+        public CommentDbContext DbContext { get; } = new CommentDbContext();
 
         public ObservableCollection<Comment> Comments { get; private set; } = new ObservableCollection<Comment>();
 
@@ -52,6 +55,8 @@
             set { SetProperty(ref title, value); }
         }
 
+        public string GroupName { get => groupName; set => SetProperty(ref groupName, value); }
+
         public ColumnVisibility ColumnVisibility { get; private set; } = new ColumnVisibility();
 
         public DelegateCommand AddCommentCommand => addCommentCommand ?? (addCommentCommand = new DelegateCommand(() =>
@@ -59,13 +64,13 @@
             var comment = new Comment();
             comment.GenerateSubID();
             comment.Text = Reader.OpenEditor($"{comment.SubID}.txt");
-            comment.OrderNumber = DBHelper.GetNextOrderNumberInGroup();
+            comment.OrderNumber = DbContext.GetNextOrderNumberInGroup(GroupName);
             comment.PostedDate = DateTime.Now;
-            comment.ID = DBHelper.GetMaxInColumn("comments", nameof(Comment.ID)) + 1;
-            comment.GroupName = DBHelper.CurrentGroupName;
+            comment.ID = DbContext.GetMaxID() + 1;
+            comment.GroupName = GroupName;
             comment.IsLatest = true;
 
-            DBHelper.Insert(comment);
+            DbContext.Insert(new List<Comment>() { comment });
         }));
 
         public DelegateCommand AddGroupCommand => addGroupCommand ?? (addGroupCommand = new DelegateCommand(() =>
@@ -73,31 +78,34 @@
             var comment = new Comment();
             comment.GenerateSubID();
             comment.PostedDate = DateTime.Now;
-            comment.ID = DBHelper.GetMaxInColumn("comments", nameof(Comment.ID)) + 1;
+            comment.ID = DbContext.GetMaxID() + 1;
             comment.GroupName = Reader.OpenEditor($"Group_Name-{comment.SubID}.txt");
             comment.IsLatest = true;
-            DBHelper.Insert(comment);
+            DbContext.Insert(new List<Comment>() { comment });
         }));
 
         public DelegateCommand<string> EditCommentCommand => editCommentCommand ?? (editCommentCommand = new DelegateCommand<string>((subID) =>
         {
-            var comment = DBHelper.GetLatastCommentFromSubID(subID);
+            var comment = DbContext.GetLatastCommentFromSubID(subID);
             if (comment != null)
             {
                 var updatedText = Reader.OpenEditor($"{comment.SubID}.txt", comment.Text);
                 if (comment.Text != updatedText)
                 {
                     comment.IsLatest = false;
-                    DBHelper.Update(comment);
-                    DBHelper.Insert(new Comment()
+                    DbContext.Update(comment);
+                    DbContext.Insert(new List<Comment>()
                     {
-                        ID = DBHelper.GetMaxInColumn("comments", nameof(Comment.ID)) + 1,
-                        SubID = comment.SubID,
-                        OrderNumber = comment.OrderNumber,
-                        Text = updatedText,
-                        PostedDate = DateTime.Now,
-                        GroupName = DBHelper.CurrentGroupName,
-                        IsLatest = true
+                        new Comment()
+                        {
+                            ID = DbContext.GetMaxID() + 1,
+                            SubID = comment.SubID,
+                            OrderNumber = comment.OrderNumber,
+                            Text = updatedText,
+                            PostedDate = DateTime.Now,
+                            GroupName = GroupName,
+                            IsLatest = true
+                        }
                     });
                 }
             }
@@ -135,13 +143,13 @@
         public DelegateCommand GetCommentCommand => getCommentCommand ?? (getCommentCommand = new DelegateCommand(() =>
         {
             Comments.Clear();
-            Comments.AddRange(DBHelper.GetGroupComments());
+            Comments.AddRange(DbContext.GetGroupComments(GroupName));
         }));
 
         public DelegateCommand ReloadGroupNamesCommand => reloadGroupNamesCommand ?? (reloadGroupNamesCommand = new DelegateCommand(() =>
         {
             GroupNames.Clear();
-            GroupNames.AddRange(DBHelper.GetGroupNames());
+            GroupNames.AddRange(DbContext.GetGroupNames());
         }));
 
         public DelegateCommand<string> ToggleVisibilityCommand => toggleVisibilityCommand ?? (toggleVisibilityCommand = new DelegateCommand<string>((string param) =>
