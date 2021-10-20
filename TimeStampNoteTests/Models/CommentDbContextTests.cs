@@ -124,5 +124,29 @@ namespace TimeStampNote.Models.Tests
 
             File.Delete(databaseFileName);
         }
+
+        [TestMethod()]
+        public void GetNextOrderNumberInGroupTest()
+        {
+            var cc = new CommentDbContext();
+            string databaseFileName = cc.DBFileName;
+            cc.Dispose();
+
+            using (var context = new CommentDbContext())
+            {
+                context.CreateDatabase();
+
+                var comments = new List<Comment>()
+                {
+                    new Comment(){ ID = 2223, Text = "test1", OrderNumber = 1, GroupName="g1"},
+                    new Comment(){ ID = 2224 ,Text = "test2", OrderNumber = 2, GroupName="g1"},
+                };
+
+                context.Insert(comments);
+                Assert.AreEqual(context.GetNextOrderNumberInGroup("g1"), 3);
+            }
+
+            File.Delete(databaseFileName);
+        }
     }
 }

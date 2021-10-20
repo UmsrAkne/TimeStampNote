@@ -62,5 +62,12 @@
         public int GetRecordCount() => Comments.Select(c => c).Count();
 
         public List<string> GetGroupNames() => Comments.Select(c => c.GroupName).Distinct().ToList();
+
+        public long GetNextOrderNumberInGroup(string groupName)
+        {
+            return Comments.Where(c => c.GroupName == groupName)
+                .Select(c => c.OrderNumber)
+                .OrderByDescending(number => number).First() + 1;
+        }
     }
 }
