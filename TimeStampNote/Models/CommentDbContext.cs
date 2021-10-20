@@ -37,5 +37,7 @@
             comments.ForEach(c => Comments.Add(c));
             SaveChanges();
         }
+
+        public List<Comment> GetAll() => Comments.Select(comment => comment).ToList();
     }
 }

@@ -14,11 +14,6 @@
             string databaseFileName = cc.DBFileName;
             cc.Dispose();
 
-            if (File.Exists(databaseFileName))
-            {
-                File.Delete(databaseFileName);
-            }
-
             using (var context = new CommentDbContext())
             {
                 context.CreateDatabase();
@@ -31,7 +26,10 @@
                 };
 
                 context.Insert(comments);
-                databaseFileName = context.DBFileName;
+
+                var list = context.GetAll();
+                Assert.AreEqual(list.Count, 3);
+                Assert.AreEqual(list[0].ID, 2221);
             }
 
             File.Delete(databaseFileName);
