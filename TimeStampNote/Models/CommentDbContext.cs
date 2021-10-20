@@ -38,6 +38,16 @@
             SaveChanges();
         }
 
+        public void Update(Comment comment)
+        {
+            Comment target = Comments.Where(c => comment.ID == c.ID).First();
+            target.Text = comment.Text;
+            target.PostedDate = comment.PostedDate;
+            target.GroupName = comment.GroupName;
+            target.IsLatest = comment.IsLatest;
+            SaveChanges();
+        }
+
         public List<Comment> GetAll() => Comments.Select(comment => comment).ToList();
     }
 }

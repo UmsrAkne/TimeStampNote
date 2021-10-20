@@ -1,4 +1,5 @@
-﻿namespace TimeStampNote.ViewModels {
+﻿namespace TimeStampNote.ViewModels
+{
     using System;
     using System.Collections.ObjectModel;
     using System.Text.RegularExpressions;
@@ -7,7 +8,8 @@
     using TimeStampNote.Models;
     using TimeStampNote.Views;
 
-    public class MainWindowViewModel : BindableBase {
+    public class MainWindowViewModel : BindableBase
+    {
         private string title = "Prism Application";
         private DelegateCommand addCommentCommand;
         private DelegateCommand<string> editCommentCommand;
