@@ -55,6 +55,8 @@
                    .OrderByDescending(c => c.PostedDate).First();
         }
 
+        public List<Comment> GetGroupComments(string groupName) => Comments.Where(c => c.GroupName == groupName).ToList();
+
         public List<Comment> GetAll() => Comments.Select(comment => comment).ToList();
     }
 }
