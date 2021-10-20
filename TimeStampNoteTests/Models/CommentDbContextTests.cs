@@ -96,5 +96,33 @@ namespace TimeStampNote.Models.Tests
 
             File.Delete(databaseFileName);
         }
+
+        [TestMethod()]
+        public void GetGroupNamesTest()
+        {
+            var cc = new CommentDbContext();
+            string databaseFileName = cc.DBFileName;
+            cc.Dispose();
+
+            using (var context = new CommentDbContext())
+            {
+                context.CreateDatabase();
+
+                var comments = new List<Comment>()
+                {
+                    new Comment(){ ID = 2221, Text = "test1", GroupName="g1" },
+                    new Comment(){ ID = 2222 ,Text = "test2",GroupName="g2" },
+                    new Comment(){ ID = 2223 ,Text = "test3",GroupName="g2" },
+                    new Comment(){ ID = 2224 ,Text = "test3",GroupName="g3" },
+                };
+
+                context.Insert(comments);
+
+                List<string> expected = new List<string> { "g1", "g2", "g3" };
+                Assert.IsTrue(expected.SequenceEqual(context.GetGroupNames()));
+            }
+
+            File.Delete(databaseFileName);
+        }
     }
 }

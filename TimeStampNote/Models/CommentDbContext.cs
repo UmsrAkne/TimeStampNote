@@ -60,5 +60,7 @@
         public List<Comment> GetAll() => Comments.Select(comment => comment).ToList();
 
         public int GetRecordCount() => Comments.Select(c => c).Count();
+
+        public List<string> GetGroupNames() => Comments.Select(c => c.GroupName).Distinct().ToList();
     }
 }
