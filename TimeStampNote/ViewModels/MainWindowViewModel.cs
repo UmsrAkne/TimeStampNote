@@ -43,12 +43,14 @@
 
         public ObservableCollection<string> GroupNames { get; private set; } = new ObservableCollection<string>();
 
-        public string CommandText {
+        public string CommandText
+        {
             get => commandText;
             set => SetProperty(ref commandText, value);
         }
 
-        public string Title {
+        public string Title
+        {
             get { return title; }
             set { SetProperty(ref title, value); }
         }
@@ -92,16 +94,19 @@
                 {
                     comment.IsLatest = false;
                     DbContext.Update(comment);
-                    DbContext.Insert(new List<Comment>(){new Comment()
+                    DbContext.Insert(new List<Comment>()
                     {
-                        ID = DbContext.GetMaxID() + 1,
-                        SubID = comment.SubID,
-                        OrderNumber = comment.OrderNumber,
-                        Text = updatedText,
-                        PostedDate = DateTime.Now,
-                        GroupName = GroupName,
-                        IsLatest = true
-                    }});
+                        new Comment()
+                        {
+                            ID = DbContext.GetMaxID() + 1,
+                            SubID = comment.SubID,
+                            OrderNumber = comment.OrderNumber,
+                            Text = updatedText,
+                            PostedDate = DateTime.Now,
+                            GroupName = GroupName,
+                            IsLatest = true
+                        }
+                    });
                 }
             }
         }));
@@ -165,7 +170,8 @@
             }
         }));
 
-        public DelegateCommand ToLightThemeCommand {
+        public DelegateCommand ToLightThemeCommand
+        {
             get => toLigthThemeCommand ?? (toLigthThemeCommand = new DelegateCommand(() =>
             {
                 UIColors.Theme = Theme.Light;
@@ -174,7 +180,8 @@
             }));
         }
 
-        public DelegateCommand ToDarkThemeCommand {
+        public DelegateCommand ToDarkThemeCommand
+        {
             get => toDarkThemeCommand ?? (toDarkThemeCommand = new DelegateCommand(() =>
             {
                 UIColors.Theme = Theme.Dark;

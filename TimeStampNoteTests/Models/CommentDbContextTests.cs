@@ -1,13 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TimeStampNote.Models;
-
-namespace TimeStampNote.Models.Tests
+﻿namespace TimeStampNote.Models.Tests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Collections.Generic;
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class CommentDbContextTests
@@ -25,9 +22,9 @@ namespace TimeStampNote.Models.Tests
 
                 var comments = new List<Comment>()
                 {
-                    new Comment(){ ID = 2221, Text = "test1"},
-                    new Comment(){ ID = 2222 ,Text = "test2"},
-                    new Comment(){ ID = 2223 ,Text = "test3"}
+                    new Comment() { ID = 2221, Text = "test1" },
+                    new Comment() { ID = 2222, Text = "test2" },
+                    new Comment() { ID = 2223, Text = "test3" }
                 };
 
                 context.Insert(comments);
@@ -53,9 +50,9 @@ namespace TimeStampNote.Models.Tests
 
                 var comments = new List<Comment>()
                 {
-                    new Comment(){ ID = 2221, Text = "test1"},
-                    new Comment(){ ID = 2222 ,Text = "test2"},
-                    new Comment(){ ID = 2223 ,Text = "test3"}
+                    new Comment() { ID = 2221, Text = "test1" },
+                    new Comment() { ID = 2222, Text = "test2" },
+                    new Comment() { ID = 2223, Text = "test3" }
                 };
 
                 context.Insert(comments);
@@ -72,7 +69,7 @@ namespace TimeStampNote.Models.Tests
             File.Delete(databaseFileName);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetLatastCommentFromSubIDTest()
         {
             var cc = new CommentDbContext();
@@ -85,9 +82,9 @@ namespace TimeStampNote.Models.Tests
 
                 var comments = new List<Comment>()
                 {
-                    new Comment(){ ID = 2221, Text = "test1", SubID = "abcdefg", PostedDate = new DateTime(100)},
-                    new Comment(){ ID = 2222 ,Text = "test2", SubID = "hijklmn", PostedDate = new DateTime(1200)},
-                    new Comment(){ ID = 2223 ,Text = "test3", SubID = "hijklmn", PostedDate = new DateTime(1100)},
+                    new Comment() { ID = 2221, Text = "test1", SubID = "abcdefg", PostedDate = new DateTime(100) },
+                    new Comment() { ID = 2222, Text = "test2", SubID = "hijklmn", PostedDate = new DateTime(1200) },
+                    new Comment() { ID = 2223, Text = "test3", SubID = "hijklmn", PostedDate = new DateTime(1100) },
                 };
 
                 context.Insert(comments);
@@ -97,7 +94,7 @@ namespace TimeStampNote.Models.Tests
             File.Delete(databaseFileName);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetGroupNamesTest()
         {
             var cc = new CommentDbContext();
@@ -110,10 +107,10 @@ namespace TimeStampNote.Models.Tests
 
                 var comments = new List<Comment>()
                 {
-                    new Comment(){ ID = 2221, Text = "test1", GroupName="g1" },
-                    new Comment(){ ID = 2222 ,Text = "test2",GroupName="g2" },
-                    new Comment(){ ID = 2223 ,Text = "test3",GroupName="g2" },
-                    new Comment(){ ID = 2224 ,Text = "test3",GroupName="g3" },
+                    new Comment() { ID = 2221, Text = "test1", GroupName = "g1" },
+                    new Comment() { ID = 2222, Text = "test2", GroupName = "g2" },
+                    new Comment() { ID = 2223, Text = "test3", GroupName = "g2" },
+                    new Comment() { ID = 2224, Text = "test3", GroupName = "g3" },
                 };
 
                 context.Insert(comments);
@@ -125,7 +122,7 @@ namespace TimeStampNote.Models.Tests
             File.Delete(databaseFileName);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetNextOrderNumberInGroupTest()
         {
             var cc = new CommentDbContext();
@@ -138,8 +135,8 @@ namespace TimeStampNote.Models.Tests
 
                 var comments = new List<Comment>()
                 {
-                    new Comment(){ ID = 2223, Text = "test1", OrderNumber = 1, GroupName="g1"},
-                    new Comment(){ ID = 2224 ,Text = "test2", OrderNumber = 2, GroupName="g1"},
+                    new Comment() { ID = 2223, Text = "test1", OrderNumber = 1, GroupName = "g1" },
+                    new Comment() { ID = 2224, Text = "test2", OrderNumber = 2, GroupName = "g1" },
                 };
 
                 context.Insert(comments);
