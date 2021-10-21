@@ -27,10 +27,22 @@
 
         public MainWindowViewModel()
         {
+            DbContext.CreateDatabase();
+
+            if (DbContext.GetAll().Count == 0)
+            {
+                var comment = new Comment();
+                comment.GenerateSubID();
+                comment.PostedDate = DateTime.Now;
+                comment.ID = DbContext.GetMaxID() + 1;
+                comment.GroupName = groupName;
+                comment.IsLatest = true;
+                DbContext.Insert(new List<Comment>() { comment });
+            }
+
             ReloadGroupNamesCommand.Execute();
             GetCommentCommand.Execute();
             UIColors.Theme = (Theme)Enum.ToObject(typeof(Theme), Properties.Settings.Default.Theme);
-            DbContext.CreateDatabase();
         }
 
         public UIColors UIColors { get; } = new UIColors(Theme.Light);
@@ -82,6 +94,10 @@
             comment.GroupName = Reader.OpenEditor($"Group_Name-{comment.SubID}.txt");
             comment.IsLatest = true;
             DbContext.Insert(new List<Comment>() { comment });
+
+            ReloadGroupNamesCommand.Execute();
+            GroupName = comment.GroupName;
+            GetCommentCommand.Execute();
         }));
 
         public DelegateCommand<string> EditCommentCommand => editCommentCommand ?? (editCommentCommand = new DelegateCommand<string>((subID) =>
