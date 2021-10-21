@@ -36,7 +36,11 @@
                    .OrderByDescending(c => c.PostedDate).First();
         }
 
-        public List<Comment> GetGroupComments(string groupName) => Comments.Where(c => c.GroupName == groupName).ToList();
+        public List<Comment> GetGroupComments(string groupName)
+        {
+            return Comments.Where(c => c.GroupName == groupName && c.IsLatest)
+                .OrderBy(c => c.OrderNumber).ToList();
+        }
 
         public List<Comment> GetAll() => Comments.Select(comment => comment).ToList();
 
@@ -47,7 +51,7 @@
         public long GetNextOrderNumberInGroup(string groupName)
         {
             var numbers = Comments.Where(c => c.GroupName == groupName).Select(c => c.OrderNumber).OrderByDescending(number => number);
-            return numbers.Count() != 0 ? numbers.First() : 0;
+            return numbers.Count() != 0 ? numbers.First() + 1 : 0;
         }
 
         public long GetMaxID()
