@@ -89,6 +89,7 @@
         </StackPanel>
         <ListView
             Grid.Row="1"
+            AlternationCount="2"
             Background="{Binding UIColors.DeepBackgroundColorBrush}"
             ItemsSource="{Binding Comments}" />
         <StatusBar
