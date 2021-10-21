@@ -32,8 +32,10 @@
 
         public Comment GetLatastCommentFromSubID(string partOfSubID)
         {
-            return Comments.Where(c => c.SubID.IndexOf(partOfSubID, StringComparison.OrdinalIgnoreCase) != -1)
-                   .OrderByDescending(c => c.PostedDate).First();
+            var list = Comments.Where(c => c.SubID.IndexOf(partOfSubID, StringComparison.OrdinalIgnoreCase) != -1)
+                   .OrderByDescending(c => c.PostedDate);
+
+            return list.Count() != 0 ? list.First() : null;
         }
 
         public List<Comment> GetGroupComments(string groupName)
