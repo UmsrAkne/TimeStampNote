@@ -94,6 +94,10 @@
             comment.GroupName = Reader.OpenEditor($"Group_Name-{comment.SubID}.txt");
             comment.IsLatest = true;
             DbContext.Insert(new List<Comment>() { comment });
+
+            ReloadGroupNamesCommand.Execute();
+            GroupName = comment.GroupName;
+            GetCommentCommand.Execute();
         }));
 
         public DelegateCommand<string> EditCommentCommand => editCommentCommand ?? (editCommentCommand = new DelegateCommand<string>((subID) =>
