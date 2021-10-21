@@ -149,7 +149,6 @@
             return Select(sql).Select(d =>
             {
                 var comment = ToComment(d);
-                comment.IndexIsEven = indexIsEven;
                 indexIsEven = !indexIsEven;
                 return comment;
             }).ToList();
