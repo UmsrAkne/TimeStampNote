@@ -176,6 +176,10 @@
                     ColumnVisibility.IDColumn = ColumnVisibility.ToggleVisibleAndCollapsed(ColumnVisibility.IDColumn);
                     break;
 
+                case "order-number":
+                    ColumnVisibility.OrderNumberColumn = ColumnVisibility.ToggleVisibleAndCollapsed(ColumnVisibility.OrderNumberColumn);
+                    break;
+
                 case "subid":
                     ColumnVisibility.SubIDColumn = ColumnVisibility.ToggleVisibleAndCollapsed(ColumnVisibility.SubIDColumn);
                     break;
