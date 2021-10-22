@@ -38,6 +38,11 @@
 
                     <MenuItem
                         Command="{Binding ToggleVisibilityCommand}"
+                        CommandParameter="order-number"
+                        Header="View OrderNumber" />
+
+                    <MenuItem
+                        Command="{Binding ToggleVisibilityCommand}"
                         CommandParameter="id"
                         Header="View ID" />
 
