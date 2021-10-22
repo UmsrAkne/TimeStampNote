@@ -22,10 +22,10 @@
                             </StackPanel.Resources>
 
                             <TextBlock
-                                Width="45"
+                                Margin="0,0,8,0"
                                 Foreground="{Binding ElementName=mainWindow, Path=DataContext.UIColors.ForegroundColorBrush}"
                                 Style="{StaticResource ListViewTextBlockStyle}"
-                                Text="{Binding OrderNumber, Converter={StaticResource NumberFormatConverter}}"
+                                Text="{Binding OrderNumber, Converter={StaticResource NumberFormatConverter}, ConverterParameter=4}"
                                 Visibility="{Binding ElementName=mainWindow, Path=DataContext.ColumnVisibility.OrderNumberColumn}" />
 
                             <TextBlock
