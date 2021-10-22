@@ -25,6 +25,13 @@
                                 Width="45"
                                 Foreground="{Binding ElementName=mainWindow, Path=DataContext.UIColors.ForegroundColorBrush}"
                                 Style="{StaticResource ListViewTextBlockStyle}"
+                                Text="{Binding OrderNumber, Converter={StaticResource NumberFormatConverter}}"
+                                Visibility="{Binding ElementName=mainWindow, Path=DataContext.ColumnVisibility.OrderNumberColumn}" />
+
+                            <TextBlock
+                                Width="45"
+                                Foreground="{Binding ElementName=mainWindow, Path=DataContext.UIColors.ForegroundColorBrush}"
+                                Style="{StaticResource ListViewTextBlockStyle}"
                                 Text="{Binding ID, Converter={StaticResource NumberFormatConverter}}"
                                 Visibility="{Binding ElementName=mainWindow, Path=DataContext.ColumnVisibility.IDColumn}" />
 
