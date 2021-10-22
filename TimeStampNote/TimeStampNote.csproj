@@ -75,8 +75,6 @@
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\NumberFormatConverter.cs" />
     <Compile Include="Models\DateTimeConverter.cs" />
-    <Compile Include="Models\DBHelper.cs" />
-    <Compile Include="Models\IDBHelper.cs" />
     <Compile Include="Models\TextReader.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
