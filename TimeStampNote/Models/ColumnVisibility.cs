@@ -5,7 +5,7 @@
 
     public class ColumnVisibility : BindableBase
     {
-        private Visibility idColumn = Visibility.Visible;
+        private Visibility idColumn = Visibility.Collapsed;
         private Visibility subIDColumn = Visibility.Visible;
         private Visibility dateColumn = Visibility.Visible;
         private Visibility orderNumberColumn = Visibility.Visible;
