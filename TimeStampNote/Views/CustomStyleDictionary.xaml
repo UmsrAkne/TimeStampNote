@@ -69,7 +69,11 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ContentControl}">
-                                <Border x:Name="ListViewBorder" Background="{TemplateBinding Background}">
+                                <Border
+                                    x:Name="ListViewBorder"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="1">
                                     <ContentPresenter />
                                 </Border>
                             </ControlTemplate>
@@ -78,6 +82,9 @@
 
                     <Style.Triggers>
 
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="BorderBrush" Value="{Binding ElementName=mainWindow, Path=DataContext.UIColors.BorderColorBrush}" />
+                        </Trigger>
                         <Trigger Property="ItemsControl.AlternationIndex" Value="0">
                             <Setter Property="Background" Value="{Binding ElementName=mainWindow, Path=DataContext.UIColors.BackgroundColorBrush}" />
                         </Trigger>
