@@ -22,12 +22,27 @@
 
         public void Update(Comment comment)
         {
-            Comment target = Comments.Where(c => comment.ID == c.ID).First();
-            target.Text = comment.Text;
-            target.PostedDate = comment.PostedDate;
-            target.GroupName = comment.GroupName;
-            target.IsLatest = comment.IsLatest;
+            Update(new List<Comment>() { comment });
+        }
+
+        public void Update(List<Comment> comments)
+        {
+            comments.ForEach(c =>
+            {
+                Comment updateTarget = Comments.Where(comment => comment.ID == c.ID).First();
+                updateTarget.Text = c.Text;
+                updateTarget.PostedDate = c.PostedDate;
+                updateTarget.GroupName = c.GroupName;
+                updateTarget.IsLatest = c.IsLatest;
+                updateTarget.Deleted = c.Deleted;
+            });
+
             SaveChanges();
+        }
+
+        public List<Comment> GetComments(string partyOfSubID)
+        {
+            return Comments.Where(c => c.SubID.IndexOf(partyOfSubID, StringComparison.OrdinalIgnoreCase) != -1).ToList();
         }
 
         public Comment GetLatastCommentFromSubID(string partOfSubID)
@@ -40,7 +55,7 @@
 
         public List<Comment> GetGroupComments(string groupName)
         {
-            return Comments.Where(c => c.GroupName == groupName && c.IsLatest)
+            return Comments.Where(c => c.GroupName == groupName && c.IsLatest && !c.Deleted)
                 .OrderBy(c => c.OrderNumber).ToList();
         }
 
