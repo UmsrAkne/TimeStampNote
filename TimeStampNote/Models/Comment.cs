@@ -38,6 +38,9 @@
         [Column("order_number")]
         public long OrderNumber { get; set; }
 
+        [Column("deleted")]
+        public bool Deleted { get; set; }
+
         /// <summary>
         /// SubID 用の文字列を生成し、SubID にセットします。
         /// </summary>
