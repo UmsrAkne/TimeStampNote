@@ -30,6 +30,26 @@
             SaveChanges();
         }
 
+        public void Update(List<Comment> comments)
+        {
+            comments.ForEach(c =>
+            {
+                Comment updateTarget = Comments.Where(comment => comment.ID == c.ID).First();
+                updateTarget.Text = c.Text;
+                updateTarget.PostedDate = c.PostedDate;
+                updateTarget.GroupName = c.GroupName;
+                updateTarget.IsLatest = c.IsLatest;
+                updateTarget.Deleted = c.Deleted;
+            });
+
+            SaveChanges();
+        }
+
+        public List<Comment> GetComments(string partyOfSubID)
+        {
+            return Comments.Where(c => c.SubID.IndexOf(partyOfSubID, StringComparison.OrdinalIgnoreCase) != -1).ToList();
+        }
+
         public Comment GetLatastCommentFromSubID(string partOfSubID)
         {
             var list = Comments.Where(c => c.SubID.IndexOf(partOfSubID, StringComparison.OrdinalIgnoreCase) != -1)
@@ -40,7 +60,7 @@
 
         public List<Comment> GetGroupComments(string groupName)
         {
-            return Comments.Where(c => c.GroupName == groupName && c.IsLatest)
+            return Comments.Where(c => c.GroupName == groupName && c.IsLatest && !c.Deleted)
                 .OrderBy(c => c.OrderNumber).ToList();
         }
 

@@ -15,6 +15,7 @@
         private string groupName = "defaultGroup";
         private DelegateCommand addCommentCommand;
         private DelegateCommand<string> editCommentCommand;
+        private DelegateCommand<string> deleteCommentCommand;
         private DelegateCommand addGroupCommand;
         private DelegateCommand executeCommandCommand;
         private DelegateCommand getCommentCommand;
@@ -127,6 +128,16 @@
             }
         }));
 
+        public DelegateCommand<string> DeleteCommentCommand => deleteCommentCommand ?? (deleteCommentCommand = new DelegateCommand<string>((string subID) =>
+        {
+            List<Comment> comments = DbContext.GetComments(subID);
+            if (comments.Count != 0)
+            {
+                comments.ForEach(comment => comment.Deleted = true);
+                DbContext.Update(comments);
+            }
+        }));
+
         public DelegateCommand ExecuteCommandCommand => executeCommandCommand ?? (executeCommandCommand = new DelegateCommand(() =>
         {
             var regOption = RegexOptions.IgnoreCase;
@@ -144,6 +155,11 @@
             if (Regex.IsMatch(CommandText, "^(e|edit) .+", regOption))
             {
                 EditCommentCommand.Execute(Regex.Matches(CommandText, "^(e|edit) (.*)", regOption)[0].Groups[2].Value);
+            }
+
+            if (Regex.IsMatch(CommandText, "^(d|del|delete) .+", regOption))
+            {
+                DeleteCommentCommand.Execute(Regex.Matches(CommandText, "^(d|del|delete) (.*)", regOption)[0].Groups[2].Value);
             }
 
             if (Regex.IsMatch(CommandText, "^(v|view) .+", regOption))
