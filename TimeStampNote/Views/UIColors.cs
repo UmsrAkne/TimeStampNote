@@ -27,7 +27,7 @@
                     BackgroundColorBrush = new SolidColorBrush() { Color = Color.FromRgb(0x44, 0x44, 0x44) };
                     DeepBackgroundColorBrush = new SolidColorBrush() { Color = Color.FromRgb(0x33, 0x33, 0x33) };
                     ForegroundColorBrush = new SolidColorBrush() { Color = Colors.WhiteSmoke };
-                    BorderColorBrush = new SolidColorBrush() { Color = Colors.DarkGray };
+                    BorderColorBrush = new SolidColorBrush() { Color = Colors.WhiteSmoke };
                 }
 
                 if (theme == Theme.Light)
