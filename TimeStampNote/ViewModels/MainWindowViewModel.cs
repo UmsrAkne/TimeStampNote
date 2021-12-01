@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Text.RegularExpressions;
     using Prism.Commands;
     using Prism.Mvvm;
@@ -23,8 +24,10 @@
         private DelegateCommand<string> toggleVisibilityCommand;
         private DelegateCommand toLigthThemeCommand;
         private DelegateCommand toDarkThemeCommand;
+        private DelegateCommand showSelectionCommentCommand;
 
         private string commandText = string.Empty;
+        private string statusBarText;
 
         public MainWindowViewModel()
         {
@@ -54,6 +57,8 @@
 
         public ObservableCollection<Comment> Comments { get; private set; } = new ObservableCollection<Comment>();
 
+        public ObservableCollection<Comment> SelectedComments { get; private set; } = new ObservableCollection<Comment>();
+
         public ObservableCollection<string> GroupNames { get; private set; } = new ObservableCollection<string>();
 
         public string CommandText
@@ -61,6 +66,8 @@
             get => commandText;
             set => SetProperty(ref commandText, value);
         }
+
+        public string StatusBarText { get => statusBarText; set => SetProperty(ref statusBarText, value); }
 
         public string Title
         {
@@ -223,6 +230,27 @@
                 UIColors.Theme = Theme.Dark;
                 Properties.Settings.Default.Theme = (int)Theme.Dark;
                 Properties.Settings.Default.Save();
+            }));
+        }
+
+        public DelegateCommand ShowSelectionCommentCommand
+        {
+            get => showSelectionCommentCommand ?? (showSelectionCommentCommand = new DelegateCommand(() =>
+            {
+                var selections = Comments.Where(cm => cm.IsSelected);
+
+                if (selections.Count() == 0)
+                {
+                    StatusBarText = string.Empty;
+                }
+                else if (selections.Count() == 1)
+                {
+                    StatusBarText = $"No. {selections.First().OrderNumber} ({selections.First().SubID}) を選択中";
+                }
+                else
+                {
+                    StatusBarText = $"{selections.Count()} 個のコメントを選択中";
+                }
             }));
         }
     }

@@ -35,6 +35,7 @@
                     <MenuItem Command="{Binding AddCommentCommand}" Header="Add" />
                     <MenuItem Command="{Binding AddGroupCommand}" Header="Add-Group" />
                     <MenuItem Header="edit &quot;subID&quot; " IsEnabled="False" />
+                    <MenuItem Header="delete &quot;subID&quot;" IsEnabled="False" />
 
                     <MenuItem
                         Command="{Binding ToggleVisibilityCommand}"
@@ -94,12 +95,20 @@
             Grid.Row="1"
             AlternationCount="2"
             Background="{Binding UIColors.DeepBackgroundColorBrush}"
-            ItemsSource="{Binding Comments}" />
+            ItemsSource="{Binding Comments}">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding ShowSelectionCommentCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+        </ListView>
         <StatusBar
             Grid.Row="2"
             Background="{Binding UIColors.BackgroundColorBrush}"
             Foreground="{Binding UIColors.ForegroundColorBrush}">
-            <TextBlock Text="bottomStatusBar" />
+            <TextBlock Text="{Binding StatusBarText}" />
         </StatusBar>
 
     </Grid>
