@@ -54,6 +54,8 @@
 
         public ObservableCollection<Comment> Comments { get; private set; } = new ObservableCollection<Comment>();
 
+        public ObservableCollection<Comment> SelectedComments { get; private set; } = new ObservableCollection<Comment>();
+
         public ObservableCollection<string> GroupNames { get; private set; } = new ObservableCollection<string>();
 
         public string CommandText

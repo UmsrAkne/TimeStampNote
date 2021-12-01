@@ -41,6 +41,9 @@
         [Column("deleted")]
         public bool Deleted { get; set; }
 
+        [NotMapped]
+        public bool IsSelected { get; set; }
+
         /// <summary>
         /// SubID 用の文字列を生成し、SubID にセットします。
         /// </summary>
