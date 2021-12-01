@@ -36,6 +36,7 @@
                     <MenuItem Command="{Binding AddGroupCommand}" Header="Add-Group" />
                     <MenuItem Header="edit &quot;subID&quot; " IsEnabled="False" />
                     <MenuItem Header="delete &quot;subID&quot;" IsEnabled="False" />
+                    <MenuItem Command="{Binding ReverseOrderCommand}" Header="reverse-order" />
 
                     <MenuItem
                         Command="{Binding ToggleVisibilityCommand}"

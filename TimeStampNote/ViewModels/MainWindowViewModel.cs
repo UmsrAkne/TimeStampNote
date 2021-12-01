@@ -21,6 +21,7 @@
         private DelegateCommand executeCommandCommand;
         private DelegateCommand getCommentCommand;
         private DelegateCommand reloadGroupNamesCommand;
+        private DelegateCommand reverseOrderCommand;
         private DelegateCommand<string> toggleVisibilityCommand;
         private DelegateCommand toLigthThemeCommand;
         private DelegateCommand toDarkThemeCommand;
@@ -159,6 +160,13 @@
                 AddGroupCommand.Execute();
             }
 
+            if (Regex.IsMatch(CommandText, "^reverse-?order", regOption))
+            {
+                ReverseOrderCommand.Execute();
+                CommandText = string.Empty;
+                return;
+            }
+
             if (Regex.IsMatch(CommandText, "^(e|edit) .+", regOption))
             {
                 EditCommentCommand.Execute(Regex.Matches(CommandText, "^(e|edit) (.*)", regOption)[0].Groups[2].Value);
@@ -190,6 +198,15 @@
             GroupNames.Clear();
             GroupNames.AddRange(DbContext.GetGroupNames());
         }));
+
+        public DelegateCommand ReverseOrderCommand
+        {
+            get => reverseOrderCommand ?? (reverseOrderCommand = new DelegateCommand(() =>
+            {
+                Comments = new ObservableCollection<Comment>(Comments.Reverse());
+                RaisePropertyChanged(nameof(Comments));
+            }));
+        }
 
         public DelegateCommand<string> ToggleVisibilityCommand => toggleVisibilityCommand ?? (toggleVisibilityCommand = new DelegateCommand<string>((string param) =>
         {
