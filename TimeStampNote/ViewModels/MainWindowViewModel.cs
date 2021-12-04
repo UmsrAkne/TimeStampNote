@@ -167,6 +167,15 @@
                 return;
             }
 
+            if (Regex.IsMatch(CommandText, @"^(set-?order) (\d+) (\d+)", regOption))
+            {
+                var matches = Regex.Matches(CommandText, @"^(set-?order) (\d+) (\d+)", regOption);
+                var oldIndex = matches[0].Groups[2].Value;
+                var newIndex = matches[0].Groups[3].Value;
+
+                SetOrder(int.Parse(oldIndex), int.Parse(newIndex));
+            }
+
             if (Regex.IsMatch(CommandText, "^(e|edit) .+", regOption))
             {
                 EditCommentCommand.Execute(Regex.Matches(CommandText, "^(e|edit) (.*)", regOption)[0].Groups[2].Value);
@@ -269,6 +278,35 @@
                     StatusBarText = $"{selections.Count()} 個のコメントを選択中";
                 }
             }));
+        }
+
+        private void SetOrder(int oldIndex, int newIndex)
+        {
+            if (oldIndex == newIndex && DbContext.GetCommentByOrderIndex(groupName, oldIndex).FirstOrDefault() == null)
+            {
+                return;
+            }
+
+            Comment targetComment = DbContext.GetCommentByOrderIndex(groupName, oldIndex).FirstOrDefault();
+            List<Comment> updateComments;
+
+            if (oldIndex > newIndex)
+            {
+                updateComments = DbContext.GetGroupComments(groupName)
+                    .Where(c => c.OrderNumber < oldIndex && c.OrderNumber >= newIndex).ToList();
+                updateComments.ForEach(c => c.OrderNumber++);
+                DbContext.Update(updateComments);
+            }
+            else
+            {
+                updateComments = DbContext.GetGroupComments(groupName)
+                    .Where(c => c.OrderNumber > oldIndex && c.OrderNumber <= newIndex).ToList();
+                updateComments.ForEach(c => c.OrderNumber--);
+                DbContext.Update(updateComments);
+            }
+
+            targetComment.OrderNumber = newIndex;
+            DbContext.Update(new List<Comment>() { targetComment });
         }
     }
 }
