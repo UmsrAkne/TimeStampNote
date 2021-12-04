@@ -45,6 +45,11 @@
             return Comments.Where(c => c.SubID.IndexOf(partyOfSubID, StringComparison.OrdinalIgnoreCase) != -1).ToList();
         }
 
+        public List<Comment> GetCommentByOrderIndex(string groupName, int orderNumber)
+        {
+            return Comments.Where(c => c.GroupName == groupName && c.OrderNumber == orderNumber).ToList();
+        }
+
         public Comment GetLatastCommentFromSubID(string partOfSubID)
         {
             var list = Comments.Where(c => c.SubID.IndexOf(partOfSubID, StringComparison.OrdinalIgnoreCase) != -1)

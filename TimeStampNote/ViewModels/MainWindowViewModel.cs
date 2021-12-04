@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Text.RegularExpressions;
     using Prism.Commands;
     using Prism.Mvvm;
@@ -20,11 +21,14 @@
         private DelegateCommand executeCommandCommand;
         private DelegateCommand getCommentCommand;
         private DelegateCommand reloadGroupNamesCommand;
+        private DelegateCommand reverseOrderCommand;
         private DelegateCommand<string> toggleVisibilityCommand;
         private DelegateCommand toLigthThemeCommand;
         private DelegateCommand toDarkThemeCommand;
+        private DelegateCommand showSelectionCommentCommand;
 
         private string commandText = string.Empty;
+        private string statusBarText;
 
         public MainWindowViewModel()
         {
@@ -54,6 +58,8 @@
 
         public ObservableCollection<Comment> Comments { get; private set; } = new ObservableCollection<Comment>();
 
+        public ObservableCollection<Comment> SelectedComments { get; private set; } = new ObservableCollection<Comment>();
+
         public ObservableCollection<string> GroupNames { get; private set; } = new ObservableCollection<string>();
 
         public string CommandText
@@ -61,6 +67,8 @@
             get => commandText;
             set => SetProperty(ref commandText, value);
         }
+
+        public string StatusBarText { get => statusBarText; set => SetProperty(ref statusBarText, value); }
 
         public string Title
         {
@@ -152,6 +160,22 @@
                 AddGroupCommand.Execute();
             }
 
+            if (Regex.IsMatch(CommandText, "^reverse-?order", regOption))
+            {
+                ReverseOrderCommand.Execute();
+                CommandText = string.Empty;
+                return;
+            }
+
+            if (Regex.IsMatch(CommandText, @"^(set-?order) (\d+) (\d+)", regOption))
+            {
+                var matches = Regex.Matches(CommandText, @"^(set-?order) (\d+) (\d+)", regOption);
+                var oldIndex = matches[0].Groups[2].Value;
+                var newIndex = matches[0].Groups[3].Value;
+
+                SetOrder(int.Parse(oldIndex), int.Parse(newIndex));
+            }
+
             if (Regex.IsMatch(CommandText, "^(e|edit) .+", regOption))
             {
                 EditCommentCommand.Execute(Regex.Matches(CommandText, "^(e|edit) (.*)", regOption)[0].Groups[2].Value);
@@ -183,6 +207,15 @@
             GroupNames.Clear();
             GroupNames.AddRange(DbContext.GetGroupNames());
         }));
+
+        public DelegateCommand ReverseOrderCommand
+        {
+            get => reverseOrderCommand ?? (reverseOrderCommand = new DelegateCommand(() =>
+            {
+                Comments = new ObservableCollection<Comment>(Comments.Reverse());
+                RaisePropertyChanged(nameof(Comments));
+            }));
+        }
 
         public DelegateCommand<string> ToggleVisibilityCommand => toggleVisibilityCommand ?? (toggleVisibilityCommand = new DelegateCommand<string>((string param) =>
         {
@@ -224,6 +257,56 @@
                 Properties.Settings.Default.Theme = (int)Theme.Dark;
                 Properties.Settings.Default.Save();
             }));
+        }
+
+        public DelegateCommand ShowSelectionCommentCommand
+        {
+            get => showSelectionCommentCommand ?? (showSelectionCommentCommand = new DelegateCommand(() =>
+            {
+                var selections = Comments.Where(cm => cm.IsSelected);
+
+                if (selections.Count() == 0)
+                {
+                    StatusBarText = string.Empty;
+                }
+                else if (selections.Count() == 1)
+                {
+                    StatusBarText = $"No. {selections.First().OrderNumber} ({selections.First().SubID}) を選択中";
+                }
+                else
+                {
+                    StatusBarText = $"{selections.Count()} 個のコメントを選択中";
+                }
+            }));
+        }
+
+        private void SetOrder(int oldIndex, int newIndex)
+        {
+            if (oldIndex == newIndex && DbContext.GetCommentByOrderIndex(groupName, oldIndex).FirstOrDefault() == null)
+            {
+                return;
+            }
+
+            Comment targetComment = DbContext.GetCommentByOrderIndex(groupName, oldIndex).FirstOrDefault();
+            List<Comment> updateComments;
+
+            if (oldIndex > newIndex)
+            {
+                updateComments = DbContext.GetGroupComments(groupName)
+                    .Where(c => c.OrderNumber < oldIndex && c.OrderNumber >= newIndex).ToList();
+                updateComments.ForEach(c => c.OrderNumber++);
+                DbContext.Update(updateComments);
+            }
+            else
+            {
+                updateComments = DbContext.GetGroupComments(groupName)
+                    .Where(c => c.OrderNumber > oldIndex && c.OrderNumber <= newIndex).ToList();
+                updateComments.ForEach(c => c.OrderNumber--);
+                DbContext.Update(updateComments);
+            }
+
+            targetComment.OrderNumber = newIndex;
+            DbContext.Update(new List<Comment>() { targetComment });
         }
     }
 }
