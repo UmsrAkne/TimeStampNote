@@ -8,5 +8,9 @@
 
     public class Logger
     {
+        public string AddCommentLog(Comment comment)
+        {
+            return $"{DateTime.Now} {comment.SubID} を追加しました ----- \n {comment.Text} \n";
+        }
     }
 }
