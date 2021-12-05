@@ -10,7 +10,18 @@
     {
         public string AddCommentLog(Comment comment)
         {
-            return $"{DateTime.Now} {comment.SubID} を追加しました ----- \n {comment.Text} \n";
+            return buildMessage(comment, "を追加しました -----");
         }
+
+        public string EditCommentLog(Comment comment)
+        {
+            return buildMessage(comment, "を編集しました -----");
+        }
+
+        private string buildMessage(Comment comment, string message)
+        {
+            return $"{DateTime.Now} {comment.SubID} {message} \n Text =  \n\"{comment.Text}\"\n";
+        }
+
     }
 }
