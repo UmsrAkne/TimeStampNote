@@ -133,6 +133,8 @@
                         }
                     });
                 }
+
+                GetCommentCommand.Execute();
             }
         }));
 
