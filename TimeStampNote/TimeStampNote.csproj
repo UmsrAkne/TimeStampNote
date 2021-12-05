@@ -57,6 +57,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\CommentDbContext.cs" />
+    <Compile Include="Models\Logger.cs" />
     <Compile Include="Views\Theme.cs" />
     <Compile Include="Views\UIColors.cs" />
     <Page Include="Views\CustomStyleDictionary.xaml">
