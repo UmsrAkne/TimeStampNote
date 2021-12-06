@@ -64,19 +64,11 @@
 
         public ObservableCollection<string> GroupNames { get; private set; } = new ObservableCollection<string>();
 
-        public string CommandText
-        {
-            get => commandText;
-            set => SetProperty(ref commandText, value);
-        }
+        public string CommandText { get => commandText; set => SetProperty(ref commandText, value); }
 
         public string StatusBarText { get => statusBarText; set => SetProperty(ref statusBarText, value); }
 
-        public string Title
-        {
-            get { return title; }
-            set { SetProperty(ref title, value); }
-        }
+        public string Title { get => title; set => SetProperty(ref title, value); }
 
         public string GroupName
         {
