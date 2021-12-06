@@ -12,7 +12,7 @@
 
     public class MainWindowViewModel : BindableBase
     {
-        private string title = "Prism Application";
+        private string title = string.Empty;
         private string groupName = "defaultGroup";
         private DelegateCommand addCommentCommand;
         private DelegateCommand<string> editCommentCommand;
@@ -49,6 +49,7 @@
             ReloadGroupNamesCommand.Execute();
             GetCommentCommand.Execute();
             UIColors.Theme = (Theme)Enum.ToObject(typeof(Theme), Properties.Settings.Default.Theme);
+            Title = GroupName;
         }
 
         public UIColors UIColors { get; } = new UIColors(Theme.Light);
@@ -77,7 +78,15 @@
             set { SetProperty(ref title, value); }
         }
 
-        public string GroupName { get => groupName; set => SetProperty(ref groupName, value); }
+        public string GroupName
+        {
+            get => groupName;
+            set
+            {
+                SetProperty(ref groupName, value);
+                Title = value;
+            }
+        }
 
         public ColumnVisibility ColumnVisibility { get; private set; } = new ColumnVisibility();
 
