@@ -64,7 +64,6 @@
 
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
-
                 <Style TargetType="ListViewItem">
                     <Setter Property="IsSelected" Value="{Binding IsSelected}" />
                     <Setter Property="Template">
@@ -78,6 +77,19 @@
                                     <ContentPresenter />
                                 </Border>
                             </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem
+                                    Command="{Binding PlacementTarget.Tag.EditCommentCommand, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                    CommandParameter="{Binding SubID}"
+                                    Header="Edit" />
+                            </ContextMenu>
                         </Setter.Value>
                     </Setter>
 

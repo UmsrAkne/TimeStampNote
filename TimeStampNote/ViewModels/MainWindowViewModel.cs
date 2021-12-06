@@ -29,6 +29,7 @@
 
         private string commandText = string.Empty;
         private string statusBarText;
+        private Logger logger = new Logger();
 
         public MainWindowViewModel()
         {
@@ -92,6 +93,7 @@
             comment.IsLatest = true;
 
             DbContext.Insert(new List<Comment>() { comment });
+            logger.AddCommentLog(comment);
         }));
 
         public DelegateCommand AddGroupCommand => addGroupCommand ?? (addGroupCommand = new DelegateCommand(() =>
@@ -119,7 +121,8 @@
                 {
                     comment.IsLatest = false;
                     DbContext.Update(comment);
-                    DbContext.Insert(new List<Comment>()
+
+                    List<Comment> commentList = new List<Comment>()
                     {
                         new Comment()
                         {
@@ -131,8 +134,13 @@
                             GroupName = GroupName,
                             IsLatest = true
                         }
-                    });
+                    };
+
+                    DbContext.Insert(commentList);
+                    logger.EditCommentLog(commentList.First());
                 }
+
+                GetCommentCommand.Execute();
             }
         }));
 
@@ -142,6 +150,7 @@
             if (comments.Count != 0)
             {
                 comments.ForEach(comment => comment.Deleted = true);
+                logger.DeleteCommentLog(comments.OrderByDescending(comment => comment.PostedDate).First());
                 DbContext.Update(comments);
             }
         }));
