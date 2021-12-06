@@ -18,6 +18,11 @@
             return buildMessage(comment, "を編集しました -----");
         }
 
+        public string DeleteCommentLog(Comment comment)
+        {
+            return buildMessage(comment, "を削除しました -----");
+        }
+
         private string buildMessage(Comment comment, string message)
         {
             return $"{DateTime.Now} {comment.SubID} {message} \n Text =  \n\"{comment.Text}\"\n";
