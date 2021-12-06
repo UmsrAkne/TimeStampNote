@@ -1,18 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TimeStampNote.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TimeStampNote.Models.Tests
+﻿namespace TimeStampNote.Models.Tests
 {
-    [TestClass()]
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using TimeStampNote.Models;
+
+    [TestClass]
     public class LoggerTests
     {
-        [TestMethod()]
-        public void addCommentLogTest()
+        [TestMethod]
+        public void AddCommentLogText()
         {
             Logger logger = new Logger();
 
