@@ -195,6 +195,12 @@
                 string subCommand = Regex.Match(CommandText, "^(v|view) (.*)$", regOption).Groups[2].Value.ToLower();
                 ToggleVisibilityCommand.Execute(subCommand);
             }
+            else
+            {
+                var comment = GenerateComment(CommandText);
+                DbContext.Insert(new List<Comment>() { comment });
+                logger.AddCommentLog(comment);
+            }
 
             GetCommentCommand.Execute();
             CommandText = string.Empty;
@@ -282,6 +288,19 @@
                     StatusBarText = $"{selections.Count()} 個のコメントを選択中";
                 }
             }));
+        }
+
+        private Comment GenerateComment(string text)
+        {
+            var comment = new Comment();
+            comment.GenerateSubID();
+            comment.Text = text;
+            comment.OrderNumber = DbContext.GetNextOrderNumberInGroup(GroupName);
+            comment.PostedDate = DateTime.Now;
+            comment.ID = DbContext.GetMaxID() + 1;
+            comment.GroupName = GroupName;
+            comment.IsLatest = true;
+            return comment;
         }
 
         private void SetOrder(int oldIndex, int newIndex)
