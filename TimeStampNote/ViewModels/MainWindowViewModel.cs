@@ -27,6 +27,7 @@
         private DelegateCommand toDarkThemeCommand;
         private DelegateCommand showSelectionCommentCommand;
 
+        private bool orderReversed;
         private string commandText = string.Empty;
         private string statusBarText;
         private Logger logger = new Logger();
@@ -203,7 +204,8 @@
         public DelegateCommand GetCommentCommand => getCommentCommand ?? (getCommentCommand = new DelegateCommand(() =>
         {
             Comments.Clear();
-            Comments.AddRange(DbContext.GetGroupComments(GroupName));
+            var commentList = DbContext.GetGroupComments(GroupName);
+            Comments.AddRange(orderReversed ? commentList.AsEnumerable().Reverse().ToList() : commentList);
         }));
 
         public DelegateCommand ReloadGroupNamesCommand => reloadGroupNamesCommand ?? (reloadGroupNamesCommand = new DelegateCommand(() =>
@@ -217,6 +219,7 @@
             get => reverseOrderCommand ?? (reverseOrderCommand = new DelegateCommand(() =>
             {
                 Comments = new ObservableCollection<Comment>(Comments.Reverse());
+                orderReversed = !orderReversed;
                 RaisePropertyChanged(nameof(Comments));
             }));
         }
