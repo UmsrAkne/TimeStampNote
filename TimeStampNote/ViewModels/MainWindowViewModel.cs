@@ -84,14 +84,8 @@
 
         public DelegateCommand AddCommentCommand => addCommentCommand ?? (addCommentCommand = new DelegateCommand(() =>
         {
-            var comment = new Comment();
-            comment.GenerateSubID();
+            var comment = GenerateComment(string.Empty);
             comment.Text = Reader.OpenEditor($"{comment.SubID}.txt");
-            comment.OrderNumber = DbContext.GetNextOrderNumberInGroup(GroupName);
-            comment.PostedDate = DateTime.Now;
-            comment.ID = DbContext.GetMaxID() + 1;
-            comment.GroupName = GroupName;
-            comment.IsLatest = true;
 
             DbContext.Insert(new List<Comment>() { comment });
             logger.AddCommentLog(comment);
