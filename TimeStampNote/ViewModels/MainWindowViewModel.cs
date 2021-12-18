@@ -164,20 +164,17 @@
             {
                 AddCommentCommand.Execute();
             }
-
-            if (Regex.IsMatch(CommandText, "^add-?group ", regOption))
+            else if (Regex.IsMatch(CommandText, "^add-?group ", regOption))
             {
                 AddGroupCommand.Execute();
             }
-
-            if (Regex.IsMatch(CommandText, "^reverse-?order", regOption))
+            else if (Regex.IsMatch(CommandText, "^reverse-?order", regOption))
             {
                 ReverseOrderCommand.Execute();
                 CommandText = string.Empty;
                 return;
             }
-
-            if (Regex.IsMatch(CommandText, @"^(set-?order) (\d+) (\d+)", regOption))
+            else if (Regex.IsMatch(CommandText, @"^(set-?order) (\d+) (\d+)", regOption))
             {
                 var matches = Regex.Matches(CommandText, @"^(set-?order) (\d+) (\d+)", regOption);
                 var oldIndex = matches[0].Groups[2].Value;
@@ -185,18 +182,15 @@
 
                 SetOrder(int.Parse(oldIndex), int.Parse(newIndex));
             }
-
-            if (Regex.IsMatch(CommandText, "^(e|edit) .+", regOption))
+            else if (Regex.IsMatch(CommandText, "^(e|edit) .+", regOption))
             {
                 EditCommentCommand.Execute(Regex.Matches(CommandText, "^(e|edit) (.*)", regOption)[0].Groups[2].Value);
             }
-
-            if (Regex.IsMatch(CommandText, "^(d|del|delete) .+", regOption))
+            else if (Regex.IsMatch(CommandText, "^(d|del|delete) .+", regOption))
             {
                 DeleteCommentCommand.Execute(Regex.Matches(CommandText, "^(d|del|delete) (.*)", regOption)[0].Groups[2].Value);
             }
-
-            if (Regex.IsMatch(CommandText, "^(v|view) .+", regOption))
+            else if (Regex.IsMatch(CommandText, "^(v|view) .+", regOption))
             {
                 string subCommand = Regex.Match(CommandText, "^(v|view) (.*)$", regOption).Groups[2].Value.ToLower();
                 ToggleVisibilityCommand.Execute(subCommand);
