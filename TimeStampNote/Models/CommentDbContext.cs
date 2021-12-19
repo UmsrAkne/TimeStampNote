@@ -64,6 +64,22 @@
                 .OrderBy(c => c.OrderNumber).ToList();
         }
 
+        public List<Comment> GetGroupComments(string groupName, string orderPropertyName)
+        {
+            var cms = Comments.Where(c => c.GroupName == groupName && c.IsLatest && !c.Deleted).ToList();
+            switch (orderPropertyName)
+            {
+                case "date":
+                    return cms.OrderBy(c => c.PostedDate).ToList();
+
+                case "id":
+                    return cms.OrderBy(c => c.ID).ToList();
+
+                default:
+                    return cms.OrderBy(c => c.OrderNumber).ToList();
+            }
+        }
+
         public List<Comment> GetAll() => Comments.Select(comment => comment).ToList();
 
         public int GetRecordCount() => Comments.Select(c => c).Count();
