@@ -22,12 +22,14 @@
         private DelegateCommand getCommentCommand;
         private DelegateCommand reloadGroupNamesCommand;
         private DelegateCommand reverseOrderCommand;
+        private DelegateCommand<string> sortCommand;
         private DelegateCommand<string> toggleVisibilityCommand;
         private DelegateCommand toLigthThemeCommand;
         private DelegateCommand toDarkThemeCommand;
         private DelegateCommand showSelectionCommentCommand;
 
         private bool orderReversed;
+        private string sortColumnName = string.Empty;
         private string commandText = string.Empty;
         private string statusBarText;
         private Logger logger = new Logger();
@@ -190,6 +192,11 @@
                 string subCommand = Regex.Match(CommandText, "^(v|view) (.*)$", regOption).Groups[2].Value.ToLower();
                 ToggleVisibilityCommand.Execute(subCommand);
             }
+            else if (Regex.IsMatch(CommandText, "^sort .*", regOption))
+            {
+                string subCommand = Regex.Match(CommandText, "^(sort) (.*)$", regOption).Groups[2].Value.ToLower();
+                sortColumnName = subCommand;
+            }
             else
             {
                 var comment = GenerateComment(CommandText);
@@ -204,7 +211,7 @@
         public DelegateCommand GetCommentCommand => getCommentCommand ?? (getCommentCommand = new DelegateCommand(() =>
         {
             Comments.Clear();
-            var commentList = DbContext.GetGroupComments(GroupName);
+            var commentList = DbContext.GetGroupComments(GroupName, sortColumnName);
             Comments.AddRange(orderReversed ? commentList.AsEnumerable().Reverse().ToList() : commentList);
         }));
 
@@ -221,6 +228,15 @@
                 Comments = new ObservableCollection<Comment>(Comments.Reverse());
                 orderReversed = !orderReversed;
                 RaisePropertyChanged(nameof(Comments));
+            }));
+        }
+
+        public DelegateCommand<string> SortCommand
+        {
+            get => sortCommand ?? (sortCommand = new DelegateCommand<string>((string columnName) =>
+            {
+                sortColumnName = columnName;
+                GetCommentCommand.Execute();
             }));
         }
 
