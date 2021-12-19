@@ -199,9 +199,16 @@
             }
             else
             {
-                var comment = GenerateComment(CommandText);
-                DbContext.Insert(new List<Comment>() { comment });
-                logger.AddCommentLog(comment);
+                if (CommandText.Length > 0)
+                {
+                    var comment = GenerateComment(CommandText);
+                    DbContext.Insert(new List<Comment>() { comment });
+                    logger.AddCommentLog(comment);
+                }
+                else
+                {
+                    return;
+                }
             }
 
             GetCommentCommand.Execute();
