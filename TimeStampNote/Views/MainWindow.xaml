@@ -39,6 +39,22 @@
                     <MenuItem Header="set-order &quot;oldIndex&quot; &quot;newIndex&quot;" IsEnabled="False" />
                     <MenuItem Command="{Binding ReverseOrderCommand}" Header="reverse-order" />
 
+                    <Separator />
+
+                    <MenuItem
+                        Command="{Binding SortCommand}"
+                        CommandParameter="date"
+                        Header="sort date" />
+
+                    <MenuItem
+                        Command="{Binding SortCommand}"
+                        CommandParameter="id"
+                        Header="sort id" />
+
+                    <MenuItem Command="{Binding SortCommand}" Header="sort order-number" />
+
+                    <Separator />
+
                     <MenuItem
                         Command="{Binding ToggleVisibilityCommand}"
                         CommandParameter="order-number"
