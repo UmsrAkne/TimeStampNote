@@ -28,8 +28,6 @@
         private DelegateCommand toDarkThemeCommand;
         private DelegateCommand showSelectionCommentCommand;
 
-        private bool orderReversed;
-        private string sortColumnName = string.Empty;
         private string commandText = string.Empty;
         private string statusBarText;
         private Logger logger = new Logger();
@@ -66,6 +64,8 @@
         public ObservableCollection<Comment> SelectedComments { get; private set; } = new ObservableCollection<Comment>();
 
         public ObservableCollection<string> GroupNames { get; private set; } = new ObservableCollection<string>();
+
+        public OrderSetting OrderSetting { get; set; } = new OrderSetting();
 
         public string CommandText { get => commandText; set => SetProperty(ref commandText, value); }
 
@@ -195,7 +195,7 @@
             else if (Regex.IsMatch(CommandText, "^sort .*", regOption))
             {
                 string subCommand = Regex.Match(CommandText, "^(sort) (.*)$", regOption).Groups[2].Value.ToLower();
-                sortColumnName = subCommand;
+                OrderSetting.SortColumnName = subCommand;
             }
             else
             {
@@ -218,8 +218,8 @@
         public DelegateCommand GetCommentCommand => getCommentCommand ?? (getCommentCommand = new DelegateCommand(() =>
         {
             Comments.Clear();
-            var commentList = DbContext.GetGroupComments(GroupName, sortColumnName);
-            Comments.AddRange(orderReversed ? commentList.AsEnumerable().Reverse().ToList() : commentList);
+            var commentList = DbContext.GetGroupComments(GroupName, OrderSetting.SortColumnName);
+            Comments.AddRange(OrderSetting.Reversing ? commentList.AsEnumerable().Reverse().ToList() : commentList);
         }));
 
         public DelegateCommand ReloadGroupNamesCommand => reloadGroupNamesCommand ?? (reloadGroupNamesCommand = new DelegateCommand(() =>
@@ -233,7 +233,7 @@
             get => reverseOrderCommand ?? (reverseOrderCommand = new DelegateCommand(() =>
             {
                 Comments = new ObservableCollection<Comment>(Comments.Reverse());
-                orderReversed = !orderReversed;
+                OrderSetting.Reversing = !OrderSetting.Reversing;
                 RaisePropertyChanged(nameof(Comments));
             }));
         }
@@ -242,7 +242,7 @@
         {
             get => sortCommand ?? (sortCommand = new DelegateCommand<string>((string columnName) =>
             {
-                sortColumnName = columnName;
+                OrderSetting.SortColumnName = columnName;
                 GetCommentCommand.Execute();
             }));
         }
