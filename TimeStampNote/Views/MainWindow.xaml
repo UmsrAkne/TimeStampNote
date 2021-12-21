@@ -123,7 +123,13 @@
                     </Style>
                 </StackPanel.Resources>
 
-                <TextBlock Padding="0,5" Text="Revers">
+                <TextBlock Style="{StaticResource orderStatusTextBlockStyle}" Text="Order by" />
+
+                <TextBlock Style="{StaticResource orderStatusTextBlockStyle}" Text="{Binding OrderSetting.SortColumnName}" />
+
+                <TextBlock Style="{StaticResource orderStatusTextBlockStyle}" Text="/ " />
+
+                <TextBlock Text="Revers">
 
                     <TextBlock.Style>
                         <Style BasedOn="{StaticResource orderStatusTextBlockStyle}" TargetType="TextBlock">
