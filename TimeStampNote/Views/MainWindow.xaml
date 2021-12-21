@@ -21,6 +21,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
@@ -108,9 +109,51 @@
                 </TextBox.InputBindings>
             </TextBox>
 
+            <StackPanel
+                Grid.Row="1"
+                Background="{Binding UIColors.BackgroundColorBrush}"
+                Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style x:Key="orderStatusTextBlockStyle" TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="FontFamily" Value="BIZ UDゴシック" />
+                        <Setter Property="Foreground" Value="{Binding UIColors.ForegroundColorBrush}" />
+                        <Setter Property="Margin" Value="5,2" />
+                        <Setter Property="Padding" Value="0,5" />
+                    </Style>
+                </StackPanel.Resources>
+
+                <TextBlock Style="{StaticResource orderStatusTextBlockStyle}" Text="Order by" />
+
+                <TextBlock Style="{StaticResource orderStatusTextBlockStyle}" Text="{Binding OrderSetting.SortColumnName}" />
+
+                <TextBlock Style="{StaticResource orderStatusTextBlockStyle}" Text="/ " />
+
+                <TextBlock Text="Revers">
+
+                    <TextBlock.Style>
+                        <Style BasedOn="{StaticResource orderStatusTextBlockStyle}" TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding OrderSetting.Reversing}" Value="False">
+                                    <Setter Property="Opacity" Value="0.3" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding OrderSetting.Reversing}" Value="True">
+                                    <Setter Property="Opacity" Value="1" />
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+
         </StackPanel>
+
+
         <ListView
-            Grid.Row="1"
+            Grid.Row="2"
             AlternationCount="2"
             Background="{Binding UIColors.DeepBackgroundColorBrush}"
             ItemsSource="{Binding Comments}">
@@ -123,7 +166,7 @@
 
         </ListView>
         <StatusBar
-            Grid.Row="2"
+            Grid.Row="3"
             Background="{Binding UIColors.BackgroundColorBrush}"
             Foreground="{Binding UIColors.ForegroundColorBrush}">
             <TextBlock Text="{Binding StatusBarText}" />
