@@ -27,6 +27,7 @@
         private DelegateCommand toLigthThemeCommand;
         private DelegateCommand toDarkThemeCommand;
         private DelegateCommand showSelectionCommentCommand;
+        private DelegateCommand exitCommand;
 
         private string commandText = string.Empty;
         private string statusBarText;
@@ -199,7 +200,7 @@
             }
             else if (Regex.IsMatch(CommandText, "^exit ?"))
             {
-                System.Windows.Application.Current.Shutdown();
+                ExitCommand.Execute();
             }
             else
             {
@@ -312,6 +313,11 @@
                     StatusBarText = $"{selections.Count()} 個のコメントを選択中";
                 }
             }));
+        }
+
+        public DelegateCommand ExitCommand
+        {
+            get => exitCommand ?? (exitCommand = new DelegateCommand(() => System.Windows.Application.Current.Shutdown()));
         }
 
         private Comment GenerateComment(string text)
