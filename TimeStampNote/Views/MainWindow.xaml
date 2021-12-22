@@ -30,7 +30,7 @@
         <StackPanel Grid.Row="0" FocusManager.FocusedElement="{Binding ElementName=commandBox}">
             <Menu>
                 <MenuItem Header="File">
-                    <MenuItem Header="Exit" />
+                    <MenuItem Command="{Binding ExitCommand}" Header="Exit" />
                 </MenuItem>
                 <MenuItem Header="Command">
                     <MenuItem Command="{Binding AddCommentCommand}" Header="Add" />
