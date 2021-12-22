@@ -197,6 +197,10 @@
                 string subCommand = Regex.Match(CommandText, "^(sort) (.*)$", regOption).Groups[2].Value.ToLower();
                 OrderSetting.SortColumnName = subCommand;
             }
+            else if (Regex.IsMatch(CommandText, "^exit ?"))
+            {
+                System.Windows.Application.Current.Shutdown();
+            }
             else
             {
                 if (CommandText.Length > 0)
