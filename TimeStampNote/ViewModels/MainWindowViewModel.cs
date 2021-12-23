@@ -162,7 +162,7 @@
             {
                 AddCommentCommand.Execute();
             }
-            else if (Regex.IsMatch(CommandText, "^add-?group ", regOption))
+            else if (Regex.IsMatch(CommandText, "^add-?group ?", regOption))
             {
                 AddGroupCommand.Execute();
             }
