@@ -22,6 +22,13 @@
                             </StackPanel.Resources>
 
                             <TextBlock
+                                Width="30"
+                                Margin="0,0,8,0"
+                                Foreground="{Binding ElementName=mainWindow, Path=DataContext.UIColors.ForegroundColorBrush}"
+                                Style="{StaticResource ListViewTextBlockStyle}"
+                                Text="{Binding LineNumber}" />
+
+                            <TextBlock
                                 Margin="0,0,8,0"
                                 Foreground="{Binding ElementName=mainWindow, Path=DataContext.UIColors.ForegroundColorBrush}"
                                 Style="{StaticResource ListViewTextBlockStyle}"
