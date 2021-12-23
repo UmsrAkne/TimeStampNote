@@ -44,6 +44,9 @@
         [NotMapped]
         public bool IsSelected { get; set; }
 
+        [NotMapped]
+        public int LineNumber { get; set; }
+
         /// <summary>
         /// SubID 用の文字列を生成し、SubID にセットします。
         /// </summary>

@@ -223,7 +223,9 @@
         {
             Comments.Clear();
             var commentList = DbContext.GetGroupComments(GroupName, OrderSetting.SortColumnName);
-            Comments.AddRange(OrderSetting.Reversing ? commentList.AsEnumerable().Reverse().ToList() : commentList);
+            commentList = OrderSetting.Reversing ? commentList.AsEnumerable().Reverse().ToList() : commentList;
+            Enumerable.Range(1, commentList.Count).ToList().ForEach(i => commentList[i - 1].LineNumber = i);
+            Comments.AddRange(commentList);
         }));
 
         public DelegateCommand ReloadGroupNamesCommand => reloadGroupNamesCommand ?? (reloadGroupNamesCommand = new DelegateCommand(() =>
