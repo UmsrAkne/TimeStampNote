@@ -100,10 +100,13 @@
             var comment = GenerateComment(string.Empty);
             comment.GroupName = Reader.OpenEditor($"Group_Name-{comment.SubID}.txt");
 
-            DbContext.Insert(new List<Comment>() { comment });
-            ReloadGroupNamesCommand.Execute();
-            GroupName = comment.GroupName;
-            GetCommentCommand.Execute();
+            if (!string.IsNullOrWhiteSpace(comment.GroupName))
+            {
+                DbContext.Insert(new List<Comment>() { comment });
+                ReloadGroupNamesCommand.Execute();
+                GroupName = comment.GroupName;
+                GetCommentCommand.Execute();
+            }
         }));
 
         public DelegateCommand<string> EditCommentCommand => editCommentCommand ?? (editCommentCommand = new DelegateCommand<string>((subID) =>
