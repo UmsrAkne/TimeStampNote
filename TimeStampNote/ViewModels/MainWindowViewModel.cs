@@ -97,17 +97,16 @@
 
         public DelegateCommand AddGroupCommand => addGroupCommand ?? (addGroupCommand = new DelegateCommand(() =>
         {
-            var comment = new Comment();
-            comment.GenerateSubID();
-            comment.PostedDate = DateTime.Now;
-            comment.ID = DbContext.GetMaxID() + 1;
+            var comment = GenerateComment(string.Empty);
             comment.GroupName = Reader.OpenEditor($"Group_Name-{comment.SubID}.txt");
-            comment.IsLatest = true;
-            DbContext.Insert(new List<Comment>() { comment });
 
-            ReloadGroupNamesCommand.Execute();
-            GroupName = comment.GroupName;
-            GetCommentCommand.Execute();
+            if (!string.IsNullOrWhiteSpace(comment.GroupName))
+            {
+                DbContext.Insert(new List<Comment>() { comment });
+                ReloadGroupNamesCommand.Execute();
+                GroupName = comment.GroupName;
+                GetCommentCommand.Execute();
+            }
         }));
 
         public DelegateCommand<string> EditCommentCommand => editCommentCommand ?? (editCommentCommand = new DelegateCommand<string>((subID) =>
@@ -162,7 +161,7 @@
             {
                 AddCommentCommand.Execute();
             }
-            else if (Regex.IsMatch(CommandText, "^add-?group ", regOption))
+            else if (Regex.IsMatch(CommandText, "^add-?group ?", regOption))
             {
                 AddGroupCommand.Execute();
             }
