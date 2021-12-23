@@ -238,8 +238,8 @@
         {
             get => reverseOrderCommand ?? (reverseOrderCommand = new DelegateCommand(() =>
             {
-                Comments = new ObservableCollection<Comment>(Comments.Reverse());
                 OrderSetting.Reversing = !OrderSetting.Reversing;
+                GetCommentCommand.Execute();
                 RaisePropertyChanged(nameof(Comments));
             }));
         }
