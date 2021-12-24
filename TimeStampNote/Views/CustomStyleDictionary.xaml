@@ -18,6 +18,7 @@
                                     <Setter Property="FontFamily" Value="BIZ UDゴシック" />
                                     <Setter Property="LineHeight" Value="18" />
                                     <Setter Property="Foreground" Value="{Binding ElementName=mainWindow, Path=DataContext.UIColors.ForegroundColorBrush}" />
+
                                 </Style>
                             </StackPanel.Resources>
 
@@ -58,7 +59,15 @@
 
                             <TextBlock Text="{Binding Text}">
                                 <TextBlock.Style>
-                                    <Style BasedOn="{StaticResource ResourceKey=ListViewTextBlockStyle}" TargetType="TextBlock" />
+                                    <Style BasedOn="{StaticResource ResourceKey=ListViewTextBlockStyle}" TargetType="TextBlock">
+
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsMatch}" Value="True">
+                                                <Setter Property="Background" Value="{Binding ElementName=mainWindow, Path=DataContext.UIColors.AccentColorBrush}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+
+                                    </Style>
                                 </TextBlock.Style>
                             </TextBlock>
 
