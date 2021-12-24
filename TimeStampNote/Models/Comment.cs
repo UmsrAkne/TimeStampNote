@@ -3,10 +3,12 @@
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using Prism.Mvvm;
 
-    public class Comment
+    public class Comment : BindableBase
     {
         private static Random random = new Random();
+        private bool isMatch;
 
         /// <summary>
         /// このオブジェクトを識別するユニークな ID です。
@@ -51,7 +53,7 @@
         /// 複数のコメントを検索した際のマークとして使うプロパティです、ヒットした場合に true にします。
         /// </summary>
         [NotMapped]
-        public bool IsMatch { get; set; }
+        public bool IsMatch { get => isMatch; set => SetProperty(ref isMatch, value); }
 
         /// <summary>
         /// SubID 用の文字列を生成し、SubID にセットします。
