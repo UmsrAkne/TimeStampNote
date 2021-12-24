@@ -254,6 +254,7 @@
         {
             get => searchCommand ?? (searchCommand = new DelegateCommand<string>((string param) =>
             {
+                Comments.ToList().ForEach(cm => cm.IsMatch = false);
                 Comments.Where(cm => !string.IsNullOrEmpty(cm.Text) && cm.Text.Contains(param)).ToList()
                 .ForEach(cm => cm.IsMatch = true);
             }));
