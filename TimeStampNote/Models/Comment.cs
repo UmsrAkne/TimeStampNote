@@ -48,6 +48,12 @@
         public int LineNumber { get; set; }
 
         /// <summary>
+        /// 複数のコメントを検索した際のマークとして使うプロパティです、ヒットした場合に true にします。
+        /// </summary>
+        [NotMapped]
+        public bool IsMatch { get; set; }
+
+        /// <summary>
         /// SubID 用の文字列を生成し、SubID にセットします。
         /// </summary>
         public void GenerateSubID()

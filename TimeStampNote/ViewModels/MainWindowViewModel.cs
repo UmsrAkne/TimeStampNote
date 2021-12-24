@@ -22,6 +22,7 @@
         private DelegateCommand getCommentCommand;
         private DelegateCommand reloadGroupNamesCommand;
         private DelegateCommand reverseOrderCommand;
+        private DelegateCommand<string> searchCommand;
         private DelegateCommand<string> sortCommand;
         private DelegateCommand<string> toggleVisibilityCommand;
         private DelegateCommand toLigthThemeCommand;
@@ -197,6 +198,11 @@
                 string subCommand = Regex.Match(CommandText, "^(sort) (.*)$", regOption).Groups[2].Value.ToLower();
                 OrderSetting.SortColumnName = subCommand;
             }
+            else if (Regex.IsMatch(CommandText, "^(search) (.*)$", regOption))
+            {
+                string param = Regex.Match(CommandText, "^(search) (.*)$", regOption).Groups[2].Value.ToLower();
+                SearchCommand.Execute(param);
+            }
             else if (Regex.IsMatch(CommandText, "^exit ?"))
             {
                 ExitCommand.Execute();
@@ -241,6 +247,15 @@
                 OrderSetting.Reversing = !OrderSetting.Reversing;
                 GetCommentCommand.Execute();
                 RaisePropertyChanged(nameof(Comments));
+            }));
+        }
+
+        public DelegateCommand<string> SearchCommand
+        {
+            get => searchCommand ?? (searchCommand = new DelegateCommand<string>((string param) =>
+            {
+                Comments.Where(cm => !string.IsNullOrEmpty(cm.Text) && cm.Text.Contains(param)).ToList()
+                .ForEach(cm => cm.IsMatch = true);
             }));
         }
 
