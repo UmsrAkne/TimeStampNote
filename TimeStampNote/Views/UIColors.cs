@@ -10,6 +10,7 @@
         private SolidColorBrush deepBackgroundColorBrush;
         private SolidColorBrush foregroundColorBrush;
         private SolidColorBrush borderColorBrush;
+        private SolidColorBrush accentColorBrush;
 
         public UIColors(Theme defaultTheme)
         {
@@ -28,6 +29,7 @@
                     DeepBackgroundColorBrush = new SolidColorBrush() { Color = Color.FromRgb(0x33, 0x33, 0x33) };
                     ForegroundColorBrush = new SolidColorBrush() { Color = Colors.WhiteSmoke };
                     BorderColorBrush = new SolidColorBrush() { Color = Colors.WhiteSmoke };
+                    AccentColorBrush = new SolidColorBrush() { Color = Colors.Brown };
                 }
 
                 if (theme == Theme.Light)
@@ -36,6 +38,7 @@
                     DeepBackgroundColorBrush = new SolidColorBrush() { Color = Colors.White };
                     ForegroundColorBrush = new SolidColorBrush() { Color = Colors.Black };
                     BorderColorBrush = new SolidColorBrush() { Color = Colors.Gray };
+                    AccentColorBrush = new SolidColorBrush() { Color = Colors.SandyBrown };
                 }
             }
         }
@@ -62,6 +65,12 @@
         {
             get => borderColorBrush;
             private set => SetProperty(ref borderColorBrush, value);
+        }
+
+        public SolidColorBrush AccentColorBrush
+        {
+            get => accentColorBrush;
+            private set => SetProperty(ref accentColorBrush, value);
         }
     }
 }
