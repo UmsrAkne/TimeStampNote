@@ -49,6 +49,11 @@
                 DbContext.Insert(new List<Comment>() { comment });
             }
 
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.GroupName))
+            {
+                GroupName = Properties.Settings.Default.GroupName;
+            }
+
             ReloadGroupNamesCommand.Execute();
             GetCommentCommand.Execute();
             UIColors.Theme = (Theme)Enum.ToObject(typeof(Theme), Properties.Settings.Default.Theme);
@@ -82,6 +87,8 @@
             {
                 SetProperty(ref groupName, value);
                 Title = value != null ? value : string.Empty;
+                Properties.Settings.Default.GroupName = value != null ? value : string.Empty;
+                Properties.Settings.Default.Save();
             }
         }
 
