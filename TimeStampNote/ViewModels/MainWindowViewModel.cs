@@ -81,7 +81,7 @@
             set
             {
                 SetProperty(ref groupName, value);
-                Title = value;
+                Title = value != null ? value : string.Empty;
             }
         }
 
