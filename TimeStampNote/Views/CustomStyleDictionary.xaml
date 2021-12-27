@@ -4,6 +4,7 @@
     xmlns:models="clr-namespace:TimeStampNote.Models">
     <models:DateTimeConverter x:Key="DateTimeConverter" />
     <models:NumberFormatConverter x:Key="NumberFormatConverter" />
+    <models:LineNumberConverter x:Key="LineNumberConverter" />
 
     <Style TargetType="ListView">
         <Setter Property="ItemTemplate">
@@ -27,7 +28,7 @@
                                 Margin="0,0,8,0"
                                 Foreground="{Binding ElementName=mainWindow, Path=DataContext.UIColors.ForegroundColorBrush}"
                                 Style="{StaticResource ListViewTextBlockStyle}"
-                                Text="{Binding LineNumber}" />
+                                Text="{Binding LineNumber, Converter={StaticResource LineNumberConverter}}" />
 
                             <TextBlock
                                 Margin="0,0,8,0"
