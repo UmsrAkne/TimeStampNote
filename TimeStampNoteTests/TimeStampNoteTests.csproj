@@ -48,6 +48,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Models\CommentDbContextTests.cs" />
+    <Compile Include="Models\CommentOutputterTests.cs" />
     <Compile Include="Models\CommentTests.cs" />
     <Compile Include="Models\LoggerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

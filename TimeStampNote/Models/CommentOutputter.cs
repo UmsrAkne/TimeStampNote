@@ -1,12 +1,25 @@
 ﻿namespace TimeStampNote.Models
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class CommentOutputter
     {
+        public void OutputToTextFile()
+        {
+        }
+
+        public string FormatText(List<Comment> comments)
+        {
+            string combinedText = string.Empty;
+            comments.ForEach(comment =>
+            {
+                if (comment.IsLatest)
+                {
+                    combinedText += $"{comment.ID} / {comment.SubID.Substring(0, 5)}... {comment.PostedDate} {comment.Text}\n";
+                }
+            });
+
+            return combinedText;
+        }
     }
 }
