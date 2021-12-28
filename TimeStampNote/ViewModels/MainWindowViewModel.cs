@@ -29,10 +29,12 @@
         private DelegateCommand toDarkThemeCommand;
         private DelegateCommand showSelectionCommentCommand;
         private DelegateCommand exitCommand;
+        private DelegateCommand outputCommand;
 
         private string commandText = string.Empty;
         private string statusBarText;
         private Logger logger = new Logger();
+        private CommentOutputter outputter = new CommentOutputter();
 
         public MainWindowViewModel()
         {
@@ -342,6 +344,14 @@
         public DelegateCommand ExitCommand
         {
             get => exitCommand ?? (exitCommand = new DelegateCommand(() => System.Windows.Application.Current.Shutdown()));
+        }
+
+        public DelegateCommand OutputCommand
+        {
+            get => outputCommand ?? (outputCommand = new DelegateCommand(() =>
+            {
+                outputter.OutputToTextFile(DbContext.GetGroupComments(groupName));
+            }));
         }
 
         private Comment GenerateComment(string text)

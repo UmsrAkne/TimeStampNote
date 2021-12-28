@@ -31,7 +31,9 @@
             <Menu>
                 <MenuItem Header="File">
                     <MenuItem Command="{Binding ExitCommand}" Header="Exit" />
+                    <MenuItem Command="{Binding OutputCommand}" Header="Output" />
                 </MenuItem>
+
                 <MenuItem Header="Command">
                     <MenuItem Command="{Binding AddCommentCommand}" Header="Add" />
                     <MenuItem Command="{Binding AddGroupCommand}" Header="Add-Group" />
