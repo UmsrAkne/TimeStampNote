@@ -1,11 +1,16 @@
 ﻿namespace TimeStampNote.Models
 {
     using System.Collections.Generic;
+    using System.IO;
 
     public class CommentOutputter
     {
-        public void OutputToTextFile()
+        public void OutputToTextFile(List<Comment> comments)
         {
+            using (StreamWriter writer = File.CreateText("comment_output.txt"))
+            {
+                writer.WriteLine(FormatText(comments));
+            }
         }
 
         public string FormatText(List<Comment> comments)
