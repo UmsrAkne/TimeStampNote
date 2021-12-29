@@ -33,6 +33,7 @@
 
         private string commandText = string.Empty;
         private string statusBarText;
+        private int commentCount;
         private Logger logger = new Logger();
         private CommentOutputter outputter = new CommentOutputter();
 
@@ -79,6 +80,8 @@
         public string CommandText { get => commandText; set => SetProperty(ref commandText, value); }
 
         public string StatusBarText { get => statusBarText; set => SetProperty(ref statusBarText, value); }
+
+        public int CommentCount { get => commentCount; set => SetProperty(ref commentCount, value); }
 
         public string Title { get => title; set => SetProperty(ref title, value); }
 
@@ -241,6 +244,7 @@
             commentList = OrderSetting.Reversing ? commentList.AsEnumerable().Reverse().ToList() : commentList;
             Enumerable.Range(1, commentList.Count).ToList().ForEach(i => commentList[i - 1].LineNumber = i);
             Comments.AddRange(commentList);
+            CommentCount = Comments.Count;
         }));
 
         public DelegateCommand ReloadGroupNamesCommand => reloadGroupNamesCommand ?? (reloadGroupNamesCommand = new DelegateCommand(() =>

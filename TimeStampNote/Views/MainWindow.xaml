@@ -167,11 +167,24 @@
             </i:Interaction.Triggers>
 
         </ListView>
+
         <StatusBar
             Grid.Row="3"
+            Grid.Column="1"
             Background="{Binding UIColors.BackgroundColorBrush}"
             Foreground="{Binding UIColors.ForegroundColorBrush}">
-            <TextBlock Text="{Binding StatusBarText}" />
+
+            <StatusBarItem>
+                <TextBlock Text="{Binding StatusBarText}" />
+            </StatusBarItem>
+
+            <StatusBarItem HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="コメント総数 : " />
+                    <TextBlock Margin="5,0" Text="{Binding CommentCount}" />
+                </StackPanel>
+            </StatusBarItem>
+
         </StatusBar>
 
     </Grid>
