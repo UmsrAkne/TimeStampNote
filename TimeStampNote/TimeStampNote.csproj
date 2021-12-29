@@ -57,6 +57,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\CommentDbContext.cs" />
+    <Compile Include="Models\CommentOutputter.cs" />
     <Compile Include="Models\LineNumberConverter.cs" />
     <Compile Include="Models\Logger.cs" />
     <Compile Include="Models\OrderSetting.cs" />
