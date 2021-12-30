@@ -113,6 +113,7 @@
 
             <StackPanel
                 Grid.Row="1"
+                Height="35"
                 Background="{Binding UIColors.BackgroundColorBrush}"
                 Orientation="Horizontal">
                 <StackPanel.Resources>
@@ -122,6 +123,7 @@
                         <Setter Property="Foreground" Value="{Binding UIColors.ForegroundColorBrush}" />
                         <Setter Property="Margin" Value="5,2" />
                         <Setter Property="Padding" Value="0,5" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
                     </Style>
                 </StackPanel.Resources>
 
@@ -131,24 +133,38 @@
 
                 <TextBlock Style="{StaticResource orderStatusTextBlockStyle}" Text="/ " />
 
-                <TextBlock Text="Revers">
 
-                    <TextBlock.Style>
-                        <Style BasedOn="{StaticResource orderStatusTextBlockStyle}" TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding OrderSetting.Reversing}" Value="False">
-                                    <Setter Property="Opacity" Value="0.3" />
-                                </DataTrigger>
+                <Border
+                    Height="30"
+                    BorderBrush="{Binding UIColors.ForegroundColorBrush}"
+                    BorderThickness="1"
+                    CornerRadius="2">
 
-                                <DataTrigger Binding="{Binding OrderSetting.Reversing}" Value="True">
-                                    <Setter Property="Opacity" Value="1" />
-                                </DataTrigger>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDown">
+                            <i:InvokeCommandAction Command="{Binding ReverseOrderCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <TextBlock Text="Revers">
 
-                            </Style.Triggers>
-                        </Style>
+                        <TextBlock.Style>
+                            <Style BasedOn="{StaticResource orderStatusTextBlockStyle}" TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding OrderSetting.Reversing}" Value="False">
+                                        <Setter Property="Opacity" Value="0.3" />
+                                    </DataTrigger>
 
-                    </TextBlock.Style>
-                </TextBlock>
+                                    <DataTrigger Binding="{Binding OrderSetting.Reversing}" Value="True">
+                                        <Setter Property="Opacity" Value="1" />
+                                    </DataTrigger>
+
+                                </Style.Triggers>
+                            </Style>
+
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                </Border>
             </StackPanel>
 
         </StackPanel>
