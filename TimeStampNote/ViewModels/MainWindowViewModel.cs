@@ -57,6 +57,8 @@
                 GroupName = Properties.Settings.Default.GroupName;
             }
 
+            OrderSetting.Reversing = Properties.Settings.Default.Reversed;
+
             ReloadGroupNamesCommand.Execute();
             GetCommentCommand.Execute();
             UIColors.Theme = (Theme)Enum.ToObject(typeof(Theme), Properties.Settings.Default.Theme);
@@ -258,6 +260,10 @@
             get => reverseOrderCommand ?? (reverseOrderCommand = new DelegateCommand(() =>
             {
                 OrderSetting.Reversing = !OrderSetting.Reversing;
+
+                Properties.Settings.Default.Reversed = OrderSetting.Reversing;
+                Properties.Settings.Default.Save();
+
                 GetCommentCommand.Execute();
                 RaisePropertyChanged(nameof(Comments));
             }));

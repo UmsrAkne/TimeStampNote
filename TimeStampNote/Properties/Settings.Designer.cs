@@ -46,5 +46,17 @@ namespace TimeStampNote.Properties {
                 this["GroupName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Reversed {
+            get {
+                return ((bool)(this["Reversed"]));
+            }
+            set {
+                this["Reversed"] = value;
+            }
+        }
     }
 }
